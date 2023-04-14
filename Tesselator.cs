@@ -9,11 +9,20 @@ public class Tesselator : Node2D
 	int width;
 	int height;
 
-	List<PolygonSide> polygonSides = new List<PolygonSide>();
+	int xOffset = 100;
+	int yOffset = 100;
+
+	List<ILine> polygonSides = new List<ILine>();
+	List<ILine> hankinslines = new List<ILine>();
 
 	public void addPolygonSide(PolygonSide polySide)
 	{
 		polygonSides.Add(polySide);
+	}
+
+	public void addHankinsline(HankinLine polySide)
+	{
+		hankinslines.Add(polySide);
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -22,6 +31,12 @@ public class Tesselator : Node2D
 		var size = GetViewport().Size;
 		width = (int)((size.x/100)+2);
 		height = (int)((size.y/100)+2);
+
+		if(true)
+		{
+			width = 1;
+			height = 1;
+		}
 	}
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,16 +47,26 @@ public class Tesselator : Node2D
 
 	public override void _Draw()
 	{
-		int xOffset = 100;
-		int yOffset = 100;
-		for (int y = 0; y < height-1; y++)
+
+		for (int y = 0; y < height; y++)
 		{
-			for (int x = 0; x < width-1; x++)
+			for (int x = 0; x < width; x++)
 			{
+				// Draw all polygonlines multiple times over the plane 
+				var offset =  new Vector2(x*xOffset, y*yOffset);
 				foreach (var p in polygonSides)
 				{
-					var offset = p.Position + new Vector2(x*xOffset, y*yOffset);
-					DrawLine(p.Start + offset, p.End + offset, p.LineColor);
+					var start = (p.Start + offset);
+					var end =  (p.End + offset);
+					DrawLine(start, end, Colors.Gray);
+				}
+
+				// Draw all hankinslines multiple times over the plane 
+				foreach (var p in hankinslines)
+				{
+					var start = (p.Start + offset);
+					var end =  (p.End + offset);
+					DrawLine(start, end, Colors.SeaGreen);
 				}
 			}
 		}

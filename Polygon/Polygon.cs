@@ -38,6 +38,10 @@ public class Polygon : Godot.Node2D
 			polygonSides.Add(side);
 			this.AddChild(side);
 		}
+		foreach(var p in polygonSides)
+		{
+			p.connect();
+		}
 	}
 
 	int scale = 100;

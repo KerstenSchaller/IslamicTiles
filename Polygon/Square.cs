@@ -19,10 +19,5 @@ public class Square : Node2D
 		polygon.addVertices(vertices);
 	}
 
-	public void tesselate()
-	{
-		
-	}
-
 }
 
