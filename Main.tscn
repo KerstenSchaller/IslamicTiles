@@ -16,4 +16,5 @@ script = ExtResource( 3 )
 
 [node name="HankinlineControl" type="Node2D" parent="."]
 script = ExtResource( 1 )
-Angle = 12.1
+Angle = 67.1
+Offset = 35.2

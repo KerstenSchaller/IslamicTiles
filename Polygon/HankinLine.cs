@@ -12,11 +12,19 @@ public class HankinLine : Node2D, ILine
         set {angleFromBase = value * Math.PI/180;  }
     }
 
+	[Export(PropertyHint.Range, "0,50,1.1")]
+    public double Offset
+    {
+        get { return offset; }
+        set { offset = (float)value;  }
+    }
+
     Vector2 originPoint;
+	Vector2 startPoint;
     Vector2 endPoint;
 
     public Vector2 direction;
-    double offset;
+    static float offset;
 
     bool angleInverted;
     int id;
@@ -27,13 +35,14 @@ public class HankinLine : Node2D, ILine
     double baseAngle; // angle of the polygonline the hankinlines originates from
     static double angleFromBase = Math.PI / 4;
 
-    public Vector2 Start { get { return originPoint; } }
+    public Vector2 Start { get { return startPoint; } }
     public Vector2 End
     {
         get
         {
             if (neighbour == null) return originPoint + direction * 25;
-			init(originPoint, baseAngle, angleInverted);
+			shiftPoint();
+			init();
             endPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { neighbour.Start, neighbour.Start + neighbour.direction });
             return endPoint;
         }
@@ -48,7 +57,13 @@ public class HankinLine : Node2D, ILine
         originPoint = origin;
         baseAngle = _baseAngle;
 
-        var dirAngle = (!inverted) ? baseAngle - angleFromBase : baseAngle - Math.PI + angleFromBase;
+        init();
+
+    }
+
+	private void init()
+    {
+        var dirAngle = (!angleInverted) ? baseAngle - angleFromBase : baseAngle - Math.PI + angleFromBase;
         direction = new Vector2((float)Math.Cos(dirAngle), (float)Math.Sin(dirAngle));
 
     }
@@ -88,30 +103,16 @@ public class HankinLine : Node2D, ILine
         neighbour = allHankinLines[neighbourId];
     }
 
+    void shiftPoint()
+    {
+		var dir = new Vector2((float)Math.Cos(baseAngle),(float)Math.Sin(baseAngle));
+		startPoint = (angleInverted) ? originPoint + dir*offset : originPoint - dir*offset;
+    }
+
+
     public override void _Draw()
     {
-		/*
-        Vector2 p1 = new Vector2(200, 200);
-        Vector2 dir = new Vector2(-1, 0);
-        Vector2 p2 = p1 + dir * 50;
-        Vector2 p12 = (p1 + p2) / 2;
-        DrawLine(p1, p2, Colors.Azure);
-        DrawCircle(p1, 5, Colors.Red);
-        DrawCircle(p12, 2, Colors.Green);
-        double a = Math.Atan2(dir.y, dir.x);
-		a = a - Math.PI/4 - Math.PI/2;
-        Vector2 p3 = p12 + new Vector2( (float)Math.Cos(a), (float)Math.Sin(a))*25;
-		DrawLine(p12, p3, Colors.Blue);
-		*/
 
-		var p1 = new Vector2(100,100);
-		var p2 = new Vector2(100,200);
-
-		var p3 = new Vector2(100,300);
-		var p4 = new Vector2(100,400);
-		
-		bool dummy = false;
-		LineHelper.calcIntersection(p1,p2,p3,p4,ref dummy);
 
 
     }
