@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://Polygon/HankinLine.cs" type="Script" id=1]
 [ext_resource path="res://Square.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Tesselator.cs" type="Script" id=3]
 
@@ -12,3 +13,7 @@ position = Vector2( 19, 26 )
 [node name="Tesselator" type="Node2D" parent="." groups=["Tesselator"]]
 position = Vector2( 0, 3 )
 script = ExtResource( 3 )
+
+[node name="HankinlineControl" type="Node2D" parent="."]
+script = ExtResource( 1 )
+Angle = 12.1

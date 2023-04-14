@@ -4,6 +4,14 @@ using System;
 using System.Collections.Generic; //for list
 public class HankinLine : Node2D, ILine
 {
+
+    [Export(PropertyHint.Range, "0,90,1.1")]
+    public double Angle
+    {
+        get { return angleFromBase*180/Math.PI; }
+        set {angleFromBase = value * Math.PI/180;  }
+    }
+
     Vector2 originPoint;
     Vector2 endPoint;
 
@@ -25,6 +33,7 @@ public class HankinLine : Node2D, ILine
         get
         {
             if (neighbour == null) return originPoint + direction * 25;
+			init(originPoint, baseAngle, angleInverted);
             endPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { neighbour.Start, neighbour.Start + neighbour.direction });
             return endPoint;
         }
