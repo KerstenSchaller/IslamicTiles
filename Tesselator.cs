@@ -3,6 +3,14 @@ using System;
 
 using System.Collections.Generic; //for list
 
+public interface IShape
+{
+	double getXDist();
+	double getYDist();
+	double getXOffset();
+	double getYOffset();
+}
+
 public class Tesselator : Node2D
 {
 
@@ -23,6 +31,11 @@ public class Tesselator : Node2D
 	List<ILine> polygonSides = new List<ILine>();
 	List<ILine> hankinslines = new List<ILine>();
 
+	//public Hexagon shapePoly;
+	public Square shapePoly;
+
+
+
 	public void addPolygonSide(PolygonSide polySide)
 	{
 		polygonSides.Add(polySide);
@@ -36,15 +49,20 @@ public class Tesselator : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
+
 		var size = GetViewport().Size;
 		width = (int)((size.x/100)+2);
 		height = (int)((size.y/100)+2);
 
-		if(false)
+		if(true)
 		{
 			width = 1;
 			height = 1;
 		}
+
+		//shapePoly = new Hexagon();
+		shapePoly = new Square();
 	}
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,13 +73,14 @@ public class Tesselator : Node2D
 
 	public override void _Draw()
 	{
-
+		if(shapePoly == null)return;
 		for (int y = 0; y < height; y++)
 		{
 			for (int x = 0; x < width; x++)
 			{
 				// Draw all polygonlines multiple times over the plane 
-				var offset =  new Vector2(x*xOffset, y*yOffset);
+				 var offset =  new Vector2(100,100) + new Vector2(x*(float)shapePoly.getXDist()+(y%2)*(float)shapePoly.getXOffset(), y*(float)shapePoly.getYDist()+(x%2)*(float)shapePoly.getYOffset());
+				//var offset = new Vector2(250,250);
 
 				if(showPoly)
 				{
@@ -74,12 +93,17 @@ public class Tesselator : Node2D
 
 				}
 
-				// Draw all hankinslines multiple times over the plane 
-				foreach (var p in hankinslines)
+			
+
+				if(true)
 				{
-					var start = (p.Start + offset);
-					var end =  (p.End + offset);
-					DrawLine(start, end, Colors.SeaGreen);
+					// Draw all hankinslines multiple times over the plane 
+					foreach (var p in hankinslines)
+					{
+						var start = (p.Start + offset);
+						var end =  (p.End + offset);
+						DrawLine(start, end, Colors.SeaGreen);
+					}
 				}
 			}
 		}

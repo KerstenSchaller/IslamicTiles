@@ -6,8 +6,8 @@ using System.Collections.Generic; //for list
 
 public class Polygon : Godot.Node2D
 {
-	List<Vector2> vertices = new List<Vector2>();
-	List<PolygonSide> polygonSides = new List<PolygonSide>();
+	List<Vector2> vertices;
+	List<PolygonSide> polygonSides;
 
 	public void addVertices(Vector2[] _vertices)
 	{
@@ -48,9 +48,10 @@ public class Polygon : Godot.Node2D
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{
-
-	}
+    {
+        vertices = new List<Vector2>();
+        polygonSides = new List<PolygonSide>();
+    }
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
 	//  public override void _Process(float delta)
