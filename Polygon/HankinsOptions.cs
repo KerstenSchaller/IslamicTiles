@@ -43,4 +43,12 @@ public class HankinsOptions : Node
 		get { return showPoly; }
 		set { showPoly = (bool)value; }
 	}
+
+    public static bool printSingleTileOnly = false;
+	[Export(PropertyHint.Flags)]
+	public bool PrintSingleTileOnly
+	{
+		get { return printSingleTileOnly; }
+		set { printSingleTileOnly = (bool)value; }
+	}
 }

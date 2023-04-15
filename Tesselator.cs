@@ -17,7 +17,7 @@ public class Tesselator : Node2D
 	int width;
 	int height;
 
-	
+	Vector2 originShift;
 
 	List<ILine> polygonSides = new List<ILine>();
 	List<ILine> hankinslines = new List<ILine>();
@@ -34,19 +34,29 @@ public class Tesselator : Node2D
 		hankinslines.Add(polySide);
 	}
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	void getScreenSize()
 	{
 		var size = GetViewport().Size;
 		width = (int)((size.x / 100) + 2);
 		height = (int)((size.y / 100) + 2);
 
-		if (false)
+		if (HankinsOptions.printSingleTileOnly)
 		{
 			width = 1;
 			height = 1;
+			originShift = new Vector2(200,200);
 		}
+		else
+		{
+			originShift = new Vector2(-100,-100);
+		}
+	}
 
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+
+		getScreenSize();
 		switch (HankinsOptions.shape)
 		{
 			case HankinsOptions.Shapes.Square:
@@ -72,12 +82,13 @@ public class Tesselator : Node2D
 	public override void _Draw()
 	{
 		if (shapePoly == null) return;
+		getScreenSize();
 		for (int y = 0; y < height; y++)
 		{
 			for (int x = 0; x < width; x++)
 			{
 				// Draw all polygonlines multiple times over the plane 
-				var offset = new Vector2(-100, -100) + new Vector2(x * (float)shapePoly.getXDist() + (y % 2) * (float)shapePoly.getXOffset(), y * (float)shapePoly.getYDist() + (x % 2) * (float)shapePoly.getYOffset());
+				var offset = originShift + new Vector2(x * (float)shapePoly.getXDist() + (y % 2) * (float)shapePoly.getXOffset(), y * (float)shapePoly.getYDist() + (x % 2) * (float)shapePoly.getYOffset());
 
 				if (HankinsOptions.showPoly)
 				{
