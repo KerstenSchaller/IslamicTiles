@@ -36,5 +36,11 @@ public class HankinsOptions : Node
         set { shape = (Shapes)value; }
     }
 
-
+    public static bool showPoly = true;
+	[Export(PropertyHint.Flags)]
+	public bool ShowPoly
+	{
+		get { return showPoly; }
+		set { showPoly = (bool)value; }
+	}
 }

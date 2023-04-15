@@ -13,6 +13,5 @@ script = ExtResource( 3 )
 
 [node name="HankinsLineOptions" type="Node2D" parent="."]
 script = ExtResource( 1 )
-Angle = 68.2
-Offset = 6.6
-Shape = 1
+Angle = 66.0
+Offset = 8.8

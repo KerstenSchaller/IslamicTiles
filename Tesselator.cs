@@ -17,13 +17,7 @@ public class Tesselator : Node2D
 	int width;
 	int height;
 
-	bool showPoly = true;
-	[Export(PropertyHint.Flags)]
-	public bool ShowPoly
-	{
-		get { return showPoly; }
-		set { showPoly = (bool)value; }
-	}
+	
 
 	List<ILine> polygonSides = new List<ILine>();
 	List<ILine> hankinslines = new List<ILine>();
@@ -85,7 +79,7 @@ public class Tesselator : Node2D
 				// Draw all polygonlines multiple times over the plane 
 				var offset = new Vector2(-100, -100) + new Vector2(x * (float)shapePoly.getXDist() + (y % 2) * (float)shapePoly.getXOffset(), y * (float)shapePoly.getYDist() + (x % 2) * (float)shapePoly.getYOffset());
 
-				if (showPoly)
+				if (HankinsOptions.showPoly)
 				{
 					foreach (var p in polygonSides)
 					{
