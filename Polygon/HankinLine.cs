@@ -21,7 +21,6 @@ public class HankinLine : Node2D, ILine
 
 
 	bool isVisible = false;
-	public bool IsLineVisible{get{return isVisible;}}
 
 	public Vector2 Start { get { return startPoint; } }
 	public Vector2 End
