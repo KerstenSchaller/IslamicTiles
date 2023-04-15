@@ -15,3 +15,4 @@ script = ExtResource( 3 )
 script = ExtResource( 1 )
 Angle = 68.2
 Offset = 6.6
+Shape = 1

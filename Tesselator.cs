@@ -69,6 +69,9 @@ public class Tesselator : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
+		var size = GetViewport().Size;
+		width = (int)((size.x / shapePoly.getXDist()) + 2);
+		height = (int)((size.y / shapePoly.getYDist()) + 2);
 		Update();
 	}
 

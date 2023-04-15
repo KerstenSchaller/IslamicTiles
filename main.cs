@@ -1,8 +1,12 @@
 using Godot;
-using System;
 
 public class main : Node2D
 {
+
+	public override void _Ready()
+	{
+
+	}
 
 
 
