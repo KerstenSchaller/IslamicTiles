@@ -10,8 +10,8 @@ script = ExtResource( 3 )
 process_priority = 1
 position = Vector2( 0, 3 )
 script = ExtResource( 3 )
-ShowPoly = false
 
 [node name="HankinsLineOptions" type="Node2D" parent="."]
 script = ExtResource( 1 )
-Angle = 59.4
+Angle = 68.2
+Offset = 6.6

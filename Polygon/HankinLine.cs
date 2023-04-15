@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic; //for list
 public class HankinLine : Node2D, ILine
 {
-
-
-
 	Vector2 originPoint;
 	Vector2 startPoint;
 	Vector2 endPoint;
@@ -58,16 +55,13 @@ public class HankinLine : Node2D, ILine
 	private void init()
 	{
 		var dirAngle = (!angleInverted) ? baseAngle - HankinsOptions.angleFromBase : baseAngle - Math.PI + HankinsOptions.angleFromBase;
-		//var dirAngle = (!angleInverted) ? baseAngle + angleFromBase : baseAngle + Math.PI - angleFromBase;
 		direction = new Vector2((float)Math.Cos(dirAngle), (float)Math.Sin(dirAngle));
-
 	}
 
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
 		// add this to the tesselator so it can draw copys of it
 		var t = GetTree().GetNodesInGroup("Tesselator");
 		tesselator = (Tesselator)t[0];
@@ -77,12 +71,6 @@ public class HankinLine : Node2D, ILine
 		id = numberOfHankinsLines;
 		numberOfHankinsLines++;
 	}
-
-	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-	//  public override void _Process(float delta)
-	//  {
-	//      
-	//  }
 
 	public void connect()
 	{
@@ -103,14 +91,6 @@ public class HankinLine : Node2D, ILine
 	{
 		var dir = new Vector2((float)Math.Cos(baseAngle),(float)Math.Sin(baseAngle));
 		startPoint = (angleInverted) ? originPoint + dir*(float)HankinsOptions.offset : originPoint - dir*(float)HankinsOptions.offset;
-	}
-
-
-	public override void _Draw()
-	{
-
-
-
 	}
 
 }
