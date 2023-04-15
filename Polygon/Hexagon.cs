@@ -10,10 +10,10 @@ public class Hexagon : Node2D, IShape
 	private void CreateHexagonVertices()
 	{
 		int numberOfVertices = 6;
-		int radius = 30;
+		int radius = 60;
 		for (int i = 0; i < numberOfVertices; i++)
 		{
-			float angle_deg = 60 * i - 30;
+			float angle_deg = -60 * i + 30;
 			float angle_rad = (float)Math.PI / 180 * angle_deg;
 			float x = radius * (float)Math.Cos(angle_rad);
 			float y = radius * (float)Math.Sin(angle_rad);
@@ -33,7 +33,7 @@ public class Hexagon : Node2D, IShape
 
 	public override void _Draw()
 	{
-		
+		/*
 		for (int i = 0; i < vertices.Count; i++)
 		{
 			Vector2 p1 = this.Position + vertices[i];
@@ -41,16 +41,24 @@ public class Hexagon : Node2D, IShape
 			if (i == vertices.Count - 1)
 			{
 				p2 = this.Position + vertices[0];
-			}
+			} 
 			else
 			{
 				p2 = this.Position + vertices[i + 1];
 			}
 			DrawLine(p1, p2, Colors.Red);
 		}
+
+		
 		DrawCircle(this.Position + vertices[0],5, Colors.Red);
 		DrawCircle(this.Position + vertices[1],5, Colors.Green);
-		
+		DrawCircle(this.Position + vertices[2],5, Colors.Blue);
+		DrawCircle(this.Position + vertices[3],5, Colors.Yellow);
+		DrawCircle(this.Position + vertices[4],5, Colors.Purple);
+		DrawCircle(this.Position + vertices[5],5, Colors.Pink);
+		*/
+
+		//DrawCircle(this.Position ,5, Colors.Pink);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

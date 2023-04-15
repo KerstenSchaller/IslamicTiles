@@ -48,7 +48,7 @@ public class PolygonSide : Node2D, ILine
 
 	}
 
-
+	public bool IsLineVisible{get{return true;}}
 
 	  // Called every frame. 'delta' is the elapsed time since the previous frame.
 	  public override void _Process(float delta)

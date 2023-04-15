@@ -31,8 +31,8 @@ public class Tesselator : Node2D
 	List<ILine> polygonSides = new List<ILine>();
 	List<ILine> hankinslines = new List<ILine>();
 
-	//public Hexagon shapePoly;
-	public Square shapePoly;
+	public Hexagon shapePoly;
+	//public Square shapePoly;
 
 
 
@@ -49,20 +49,19 @@ public class Tesselator : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
-
 		var size = GetViewport().Size;
 		width = (int)((size.x/100)+2);
 		height = (int)((size.y/100)+2);
 
-		if(true)
+		if(false)
 		{
 			width = 1;
 			height = 1;
 		}
 
-		//shapePoly = new Hexagon();
-		shapePoly = new Square();
+		shapePoly = new Hexagon();
+		AddChild(shapePoly);
+		//shapePoly = new Square();
 	}
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -93,16 +92,17 @@ public class Tesselator : Node2D
 
 				}
 
-			
-
 				if(true)
 				{
 					// Draw all hankinslines multiple times over the plane 
 					foreach (var p in hankinslines)
 					{
+						if(!p.IsLineVisible)continue;
 						var start = (p.Start + offset);
 						var end =  (p.End + offset);
 						DrawLine(start, end, Colors.SeaGreen);
+						//DrawCircle(end, 2, Colors.Green);
+						//DrawCircle(end, 2, Colors.Red);
 					}
 				}
 			}

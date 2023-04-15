@@ -11,6 +11,7 @@ public class Polygon : Godot.Node2D
 
 	public void addVertices(Vector2[] _vertices)
 	{
+		var pos = this.Position;
 		vertices.AddRange(_vertices);
 
 		// create polygonSides
