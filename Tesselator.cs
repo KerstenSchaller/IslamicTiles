@@ -18,6 +18,7 @@ public class Tesselator : Node2D
 	int height;
 
 	Vector2 originShift;
+	int scale = 1;
 
 	List<ILine> polygonSides = new List<ILine>();
 	List<ILine> hankinslines = new List<ILine>();
@@ -45,10 +46,12 @@ public class Tesselator : Node2D
 			width = 1;
 			height = 1;
 			originShift = new Vector2(200,200);
+			scale = 3;
 		}
 		else
 		{
 			originShift = new Vector2(-100,-100);
+			scale = 1;
 		}
 	}
 
@@ -94,8 +97,8 @@ public class Tesselator : Node2D
 				{
 					foreach (var p in polygonSides)
 					{
-						var start = (p.Start + offset);
-						var end = (p.End + offset);
+						var start = (scale*p.Start + offset);
+						var end = (scale*p.End + offset);
 						DrawLine(start, end, Colors.Gray);
 					}
 
@@ -106,8 +109,8 @@ public class Tesselator : Node2D
 					// Draw all hankinslines multiple times over the plane 
 					foreach (var p in hankinslines)
 					{
-						var start = (p.Start + offset);
-						var end = (p.End + offset);
+						var start = (scale*p.Start + offset);
+						var end = (scale*p.End + offset);
 						DrawLine(start, end, Colors.SeaGreen);
 					}
 				}
