@@ -38,14 +38,30 @@ public class Graph : Node
         if(o == 0)
         {
             case1Connections();
+            GraphSolver graphSolver = new GraphSolver(20);
+            for(int i =0; i < nodes.Count;i++)
+            {
+                GraphNode node = nodes[i];
+                foreach(var link in node.getLinkedNodeIds())
+                {
+                    graphSolver.addEdge(node.Id, link);
+                }
+                graphSolver.findClosedLoops();
+            }
         }
 
         // case 2: one addtional intersection node
         // Xpos of 
-        if(o > 0 && nXPos > l/2){}
+        if(o > 0 && nXPos > l/2)
+        {
+            //GraphSolver graphSolver = new GraphSolver();
+        }
 
         // case 3: two additional intersection nodes
-        if(o > 0 && nXPos < l/2){}
+        if(o > 0 && nXPos < l/2)
+        {
+            //GraphSolver graphSolver = new GraphSolver();
+        }
 
         
 
@@ -72,14 +88,14 @@ public class Graph : Node
 
             var node4 = nodes[i*5+2];
             node4.addLink(node4.Id - 1);
-            node4.addLink( (i==0 ? n*5-3 : node4.Id - 3));
+            node4.addLink( (i==0 ? n*5-1 : node4.Id - 3));
 
             //var ind = i == 0 ? 5*n - 4 : (5*i) - 4; 
             var node5 = nodes[i*5+4];
             node5.addLink(node5.Id - 1);
             node5.addLink( (i==n-1 ? 2 : node5.Id + 3));
         }
-        // connect endNodes of hankinlines
+
 
 
     }
@@ -114,7 +130,7 @@ public class Graph : Node
             node2.addLink(node2.Id - 2);
 
             var node3 = nodes[i*5+1];
-            node3.addLink(node3.Id + 4);
+            node3.addLink(i == n - 1 ? 0 : node3.Id + 4);
             node3.addLink(node3.Id + 2);
         }
     }
@@ -123,5 +139,57 @@ public class Graph : Node
     {
         base._Process(delta);
         buildGraphConnections();
+    }
+}
+
+
+class GraphSolver {
+    private int numVertices;
+    private List<int>[] adjList;
+
+    public GraphSolver(int numVertices) {
+        this.numVertices = numVertices;
+        adjList = new List<int>[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            adjList[i] = new List<int>();
+        }
+    }
+
+    public void addEdge(int src, int dest) {
+        adjList[src].Add(dest);
+        adjList[dest].Add(src);
+    }
+
+    public void findClosedLoops() {
+        bool[] visited = new bool[numVertices];
+        for (int i = 0; i < numVertices; i++) {
+            if (!visited[i]) {
+                dfs(i, visited, -1, new HashSet<int>());
+            }
+        }
+    }
+
+    private void dfs(int curr, bool[] visited, int parent, HashSet<int> path) {
+        visited[curr] = true;
+        path.Add(curr);
+
+        foreach (int neighbor in adjList[curr]) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, visited, curr, path);
+            }
+            else if (neighbor != parent && path.Contains(neighbor)) {
+                // Found a closed loop
+                GD.Print("Closed loop: ");
+                foreach (int node in path) {
+                    GD.Print(node + " ");
+                    if (node == neighbor) {
+                        break;
+                    }
+                }
+                GD.Print();
+            }
+        }
+
+        path.Remove(curr);
     }
 }
