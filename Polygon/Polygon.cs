@@ -9,7 +9,7 @@ public class Polygon : Godot.Node2D
     List<Vector2> vertices;
     List<PolygonSide> polygonSides;
 
-    public void addVertices(Vector2[] _vertices)
+    public void init(Vector2[] _vertices, Graph graph)
     {
         var pos = this.Position;
         vertices.AddRange(_vertices);
@@ -17,13 +17,18 @@ public class Polygon : Godot.Node2D
         // create polygonSides
         for (int i = 0; i < vertices.Count; i++)
         {
+            // create node from vertice 
+            var node = new GraphNode();
+            node.setPosition(vertices[i]);
+            graph.addGraphNode(node);
+            AddChild(node);
+
             Vector2 start, end;
 
             if (i < vertices.Count - 1)
             {
                 start = vertices[i];
                 end = vertices[i + 1];
-
             }
             else
             {
@@ -34,10 +39,11 @@ public class Polygon : Godot.Node2D
 
             // create side
             var side = new PolygonSide();
-            side.init(start, end);
+            side.init(start, end, graph);
 
             polygonSides.Add(side);
             this.AddChild(side);
+
         }
         foreach (var p in polygonSides)
         {
@@ -45,13 +51,17 @@ public class Polygon : Godot.Node2D
         }
     }
 
+
+
     int scale = 100;
 
-    // Called when the node enters the scene tree for the first time.
+     
     public override void _Ready()
     {
         vertices = new List<Vector2>();
         polygonSides = new List<PolygonSide>();
+
+
     }
 
 }

@@ -14,7 +14,7 @@ public class PolygonSide : Node2D, ILine
 	HankinLine hankinLine2;
 
 
-	public void init(Vector2 start, Vector2 end)
+	public void init(Vector2 start, Vector2 end, Graph _graph)
 	{
 		startPoint = start;
 		endPoint = end;
@@ -29,15 +29,15 @@ public class PolygonSide : Node2D, ILine
 
 		hankinLine1 = new HankinLine();
 		AddChild(hankinLine1);
-		hankinLine1.init(midPoint, lineAngle, true);
+		hankinLine1.init(midPoint, lineAngle, true, _graph);
 
 		hankinLine2 = new HankinLine();
 		AddChild(hankinLine2);
-		hankinLine2.init(midPoint, lineAngle, false);
+		hankinLine2.init(midPoint, lineAngle, false, _graph);
 
 	}
 
-	// Called when the node enters the scene tree for the first time.
+	 
 	public override void _Ready()
 	{
 		// add this to the tesselator so it can draw copys of it

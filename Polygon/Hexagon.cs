@@ -21,14 +21,24 @@ public class Hexagon : Node2D, IShape
 		}
 	}
 
+	public double getSideLength()
+	{
+		return (vertices[0] - vertices[1]).Length();
+	}
 
-
-	// Called when the node enters the scene tree for the first time.
+	 
 	public override void _Ready()
 	{
+		Graph graph = new Graph();
+		AddChild(graph);
+		graph.addShape(this);
+
 		this.AddChild(polygon);
 		CreateHexagonVertices();
-		polygon.addVertices(vertices.ToArray());
+		polygon.init(vertices.ToArray(), graph);
+		graph.buildGraphConnections();
+
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,5 +68,10 @@ public class Hexagon : Node2D, IShape
 	public double getYOffset()
 	{
 		return 0;
+	}
+
+	public int getNumberOfVertices()
+	{
+		return 6;
 	}
 }

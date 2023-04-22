@@ -22,6 +22,12 @@ public class HankinLine : Node2D, ILine
 
 	bool isVisible = false;
 
+	GraphNode startNode;
+	GraphNode endNode;
+
+	public GraphNode StartNode{get{return startNode;}}
+	public GraphNode EndNode{get{return endNode;}}
+
 	public Vector2 Start { get { return startPoint; } }
 	public Vector2 End
 	{
@@ -31,6 +37,7 @@ public class HankinLine : Node2D, ILine
 			shiftPoint();
 			init();
 			endPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { neighbour.Start, neighbour.Start + neighbour.direction });
+			endNode.setPosition(endPoint);
 			return endPoint;
 		}
 	}
@@ -39,7 +46,8 @@ public class HankinLine : Node2D, ILine
 
 
 	Tesselator tesselator;
-	public void init(Vector2 origin, double _baseAngle, bool inverted)
+	Graph graph;
+	public void init(Vector2 origin, double _baseAngle, bool inverted, Graph _graph)
 	{
 		this.isVisible = true;
 		angleInverted = inverted;
@@ -47,7 +55,19 @@ public class HankinLine : Node2D, ILine
 		originPoint = origin;
 		baseAngle = _baseAngle;
 
+		graph = _graph;
+
+        // init startNode
+        startNode = new GraphNode();
+        endNode = new GraphNode();
+		graph.addGraphNode(startNode);
+		graph.addGraphNode(endNode);
+
+		AddChild(startNode);
+		AddChild(endNode);
+
 		init();
+
 
 	}
 
@@ -55,10 +75,10 @@ public class HankinLine : Node2D, ILine
 	{
 		var dirAngle = (!angleInverted) ? baseAngle - HankinsOptions.angleFromBase : baseAngle - Math.PI + HankinsOptions.angleFromBase;
 		direction = new Vector2((float)Math.Cos(dirAngle), (float)Math.Sin(dirAngle));
-	}
+    }
 
 
-	// Called when the node enters the scene tree for the first time.
+	 
 	public override void _Ready()
 	{
 		// add this to the tesselator so it can draw copys of it
@@ -90,6 +110,7 @@ public class HankinLine : Node2D, ILine
 	{
 		var dir = new Vector2((float)Math.Cos(baseAngle),(float)Math.Sin(baseAngle));
 		startPoint = (angleInverted) ? originPoint + dir*(float)HankinsOptions.offset : originPoint - dir*(float)HankinsOptions.offset;
+		startNode.setPosition(startPoint);
 	}
 
 }

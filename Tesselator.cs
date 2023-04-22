@@ -9,6 +9,10 @@ public interface IShape
 	double getYDist();
 	double getXOffset();
 	double getYOffset();
+
+	double getSideLength();
+
+	int getNumberOfVertices();
 }
 
 public class Tesselator : Node2D
@@ -24,6 +28,8 @@ public class Tesselator : Node2D
 	List<ILine> hankinslines = new List<ILine>();
 
 	public IShape shapePoly;
+
+
 
 	public void addPolygonSide(PolygonSide polySide)
 	{
@@ -55,22 +61,36 @@ public class Tesselator : Node2D
 		}
 	}
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		/*
+		Hexagon s = this.GetChild<Hexagon>(0);
+		var c = this.GetChildren().Count;
+		if(c != 0)
+		{
+			shapePoly = s;
+			return;
+		}
+		*/
+
+		this.AddToGroup("Tesselator");
 
 		getScreenSize();
 		switch (HankinsOptions.shape)
 		{
 			case HankinsOptions.Shapes.Square:
-				shapePoly = new Square();
+				Node2D node = new Square();
+				shapePoly = (IShape)node;
+				AddChild(node);
 				break;
 			case HankinsOptions.Shapes.Hexagon:
-				shapePoly = new Hexagon();
+				Node2D node2 = new Hexagon();
+				shapePoly = (IShape)node2;
+				AddChild(node2);
 				break;
 		}
 
-		AddChild((Node)shapePoly);
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
