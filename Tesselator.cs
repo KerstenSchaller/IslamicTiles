@@ -30,9 +30,27 @@ public class Tesselator : Node2D
 	public IShape shapePoly;
 
 	List<GraphNode[]> polys = new List<GraphNode[]>();
-	public void addPolys(List<GraphNode[]> _polys)
+	List<int> polyColorIndex = new List<int>();
+	public void addPolys(List<GraphNode[]> _polys, int colorIndex)
 	{
 		polys = _polys;
+		foreach(var p in _polys)
+		{
+			polyColorIndex.Add(colorIndex);
+		}
+	}
+
+	public void addPoly(GraphNode[] _poly, int colorIndex)
+	{
+		polys.Add(_poly);
+		polyColorIndex.Add(colorIndex);
+
+	}
+
+	public void clearPolys()
+	{
+		polys.Clear();
+		polyColorIndex.Clear();
 	}
 
 	public void addPolygonSide(PolygonSide polySide)
@@ -67,16 +85,6 @@ public class Tesselator : Node2D
 
 	public override void _Ready()
 	{
-		/*
-		Hexagon s = this.GetChild<Hexagon>(0);
-		var c = this.GetChildren().Count;
-		if(c != 0)
-		{
-			shapePoly = s;
-			return;
-		}
-		*/
-
 		this.AddToGroup("Tesselator");
 
 		getScreenSize();
@@ -125,22 +133,16 @@ public class Tesselator : Node2D
 				{
 					// Draw all hankinslines multiple times over the plane 
 					Vector2[] tPoly;
-					for (int i = 0; i < polys.Count - 1; i++)
+					for (int i = 0; i < polys.Count; i++)
 					{
 						tPoly = new Vector2[polys[i].Length];
 						for (int j = 0; j < polys[i].Length; j++)
 						{
 							tPoly[j] = scale * polys[i][j].getPosition() + offset;
 						}
-						DrawPolygon(tPoly, new Color[] { HankinsOptions.color3 });
+						DrawPolygon(tPoly, new Color[] { HankinsOptions.colors[polyColorIndex[i]+1] });
 					}
-					// print last ,"inner" Polygon
-					tPoly = new Vector2[polys[polys.Count-1].Length];
-					for (int j = 0; j < polys[polys.Count-1].Length; j++)
-					{
-						tPoly[j] = scale * polys[polys.Count-1][j].getPosition() + offset;
-					}
-					DrawPolygon(tPoly, new Color[] { HankinsOptions.color2});
+				
 				}
 
 				if (true)
@@ -150,7 +152,7 @@ public class Tesselator : Node2D
 					{
 						var start = (scale * p.Start + offset);
 						var end = (scale * p.End + offset);
-						DrawLine(start, end, HankinsOptions.color1, 1);
+						DrawLine(start, end, HankinsOptions.colors[0], 1);
 					}
 				}
 

@@ -48,22 +48,14 @@ public class GraphNode : Node2D
 
 	public override void _Draw()
 	{
-		/*
+		
 		var font = new DynamicFont();
 		font.FontData = ResourceLoader.Load<DynamicFontData>("res://VelomiaVanora.ttf");
 		font.Size = 20;
-
-		string text = "";
-		foreach(var id in linkedNodeIds)
-		{
-			text = text + " " + id;
-		}
-		if((this.Id == 2 || this.Id == 7 || this.Id == 9 || this.Id == 17 || this.Id == 1 || this.Id == 6 || this.Id == 11 || this.Id == 16))
-		{
-			DrawString(font, 3*this.pos + new Vector2(200,200),text, Colors.White);
-			DrawString(font, 3*this.pos + new Vector2(200,210),this.Id.ToString(), Colors.Red);
-		}
-		*/
+		
+		//DrawString(font, 3*this.pos + new Vector2(200,200), id.ToString(), Colors.Black);
+		
+		
 	}
 
 

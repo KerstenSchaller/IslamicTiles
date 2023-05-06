@@ -36,28 +36,13 @@ public class HankinsOptions : Node
 		set { shape = (Shapes)value; }
 	}
 
-	public static Color color1 = Colors.Green;
-	[Export]
-	public Color Color1
-	{
-		get { return color1; }
-		set { color1 = (Color)value; }
-	}
 
-	public static Color color2 = Colors.Blue;
+	public static Color[] colors;
 	[Export]
-	public Color Color2
+	public Color[] _Colors
 	{
-		get { return color2; }
-		set { color2 = (Color)value; }
-	}
-
-	public static Color color3 = Colors.Purple;
-	[Export]
-	public Color Color3
-	{
-		get { return color3; }
-		set { color3 = (Color)value; }
+		get { return colors; }
+		set { colors = (Color[])value; }
 	}
 
 	public static bool showPoly = true;

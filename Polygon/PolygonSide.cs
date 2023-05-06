@@ -35,6 +35,9 @@ public class PolygonSide : Node2D, ILine
 		AddChild(hankinLine2);
 		hankinLine2.init(midPoint, lineAngle, false, _graph);
 
+		hankinLine1.addSameSideNeighbour(hankinLine2);
+		hankinLine2.addSameSideNeighbour(hankinLine1);
+
 	}
 
 	 

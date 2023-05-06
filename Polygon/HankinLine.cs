@@ -16,6 +16,7 @@ public class HankinLine : Node2D, ILine
 	static int numberOfHankinsLines = 0;
 
 	HankinLine neighbour;
+	HankinLine sameSideNeigbour;
 
 	double baseAngle; // angle of the polygonline the hankinlines originates from
 
@@ -24,6 +25,8 @@ public class HankinLine : Node2D, ILine
 
 	GraphNode startNode;
 	GraphNode endNode;
+
+	GraphNode intersectionNode;
 
 	public GraphNode StartNode{get{return startNode;}}
 	public GraphNode EndNode{get{return endNode;}}
@@ -38,8 +41,12 @@ public class HankinLine : Node2D, ILine
 		}
 	}
 
-	static List<HankinLine> allHankinLines = new List<HankinLine>();
+	public void addSameSideNeighbour(HankinLine _sameSideNeighbour)
+	{
+		sameSideNeigbour = _sameSideNeighbour;
+	}
 
+	static List<HankinLine> allHankinLines = new List<HankinLine>();
 
 	Tesselator tesselator;
 	Graph graph;
@@ -56,11 +63,14 @@ public class HankinLine : Node2D, ILine
         // init startNode
         startNode = new GraphNode();
         endNode = new GraphNode();
+		intersectionNode = new GraphNode();
 		graph.addGraphNode(startNode);
+		graph.addGraphNode(intersectionNode);
 		graph.addGraphNode(endNode);
 
 		AddChild(startNode);
 		AddChild(endNode);
+		AddChild(intersectionNode);
 
 		init();
 
@@ -93,6 +103,7 @@ public class HankinLine : Node2D, ILine
 			init();
 			endPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { neighbour.Start, neighbour.Start + neighbour.direction });
 			endNode.setPosition(endPoint);
+			updateIntersection();
 	}
 
 	public void connect()
@@ -115,6 +126,12 @@ public class HankinLine : Node2D, ILine
 		var dir = new Vector2((float)Math.Cos(baseAngle),(float)Math.Sin(baseAngle));
 		startPoint = (angleInverted) ? originPoint + dir*(float)HankinsOptions.offset : originPoint - dir*(float)HankinsOptions.offset;
 		startNode.setPosition(startPoint);
+	}
+
+	void updateIntersection()
+	{
+		var interPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { sameSideNeigbour.Start, sameSideNeigbour.Start + sameSideNeigbour.direction });
+		intersectionNode.setPosition(interPoint);
 	}
 
 }

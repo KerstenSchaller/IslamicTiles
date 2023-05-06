@@ -47,26 +47,27 @@ public class Graph : Node2D
 
 		var l = shape.getSideLength();
 		var o = HankinsOptions.offset;
-		var nXPos = nodes[2].Position.x;
+		var nXPos = nodes[3].getPosition().x;
 
 
+		StupidGraphSolver graphSolver = new StupidGraphSolver(nodes);
+		AddChild(graphSolver);
 		// case 1: No addtional intersection nodes
 		if (o == 0)
 		{
-			StupidGraphSolver graphSolver = new StupidGraphSolver(nodes);
-			polys = graphSolver.getPolygons();
+			polys = graphSolver.getPolygons(0);
 
 		}
 
 		// case 2: one addtional intersection node
 		// Xpos of 
-		if (o > 0 && nXPos > l / 2)
+		if (o > 0 && nXPos < l / 2)
 		{
-			//GraphSolver graphSolver = new GraphSolver();
+			polys = graphSolver.getPolygons(1);
 		}
 
 		// case 3: two additional intersection nodes
-		if (o > 0 && nXPos < l / 2)
+		if (o > 0 && nXPos > l / 2)
 		{
 			//GraphSolver graphSolver = new GraphSolver();
 		}
@@ -150,18 +151,7 @@ public class Graph : Node2D
 
 	}
 
-	public override void _Draw()
-	{
-		for(int i=0;i<polys.Count-1;i++)
-		{
-			//DrawPolygon(GraphNodeArrayToPoly(polys[i]), new Color[] { Colors.Turquoise });
-			// add this to the tesselator so it can draw copys of it
-			var t = GetTree().GetNodesInGroup("Tesselator");
-			var tesselator = (Tesselator)t[0];
-			tesselator.addPolys(polys);
-		}
-		//DrawPolygon(GraphNodeArrayToPoly(polys[polys.Count-1]), new Color[] { Colors.MintCream });
-	}
+
 
 	private Vector2[]  GraphNodeArrayToPoly(GraphNode[] nodes)
 	{
