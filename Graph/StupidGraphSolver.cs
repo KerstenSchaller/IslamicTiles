@@ -38,7 +38,7 @@ class StupidGraphSolver : Node
     {
         var t = GetTree().GetNodesInGroup("Tesselator");
         var tesselator = (Tesselator)t[0];
-        tesselator.clearPolys();
+  
 
         int nSides = graph.Count / 7;
         List<GraphNode[]> retval = new List<GraphNode[]>();
@@ -70,7 +70,7 @@ class StupidGraphSolver : Node
     {
         var t = GetTree().GetNodesInGroup("Tesselator");
         var tesselator = (Tesselator)t[0];
-        tesselator.clearPolys();
+
 
         int nSides = graph.Count / 7;
         List<GraphNode[]> retval = new List<GraphNode[]>();

@@ -129,7 +129,7 @@ public class Tesselator : Node2D
 			
 
 
-				if (true)
+				if (HankinsOptions.showPoly)
 				{
 					// Draw all hankinslines multiple times over the plane 
 					Vector2[] tPoly;
@@ -156,7 +156,7 @@ public class Tesselator : Node2D
 					}
 				}
 
-				if (HankinsOptions.showPoly)
+				if (HankinsOptions.showFrame)
 				{
 					foreach (var p in polygonSides)
 					{
@@ -167,8 +167,10 @@ public class Tesselator : Node2D
 
 				}
 
+
 			}
 		}
+		clearPolys();
 
 
 	}
