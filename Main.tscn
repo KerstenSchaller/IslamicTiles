@@ -8,6 +8,5 @@ script = ExtResource( 2 )
 
 [node name="HankinsLineOptions" type="Node2D" parent="."]
 script = ExtResource( 1 )
-Angle = 68.2
-Shape = 1
-PrintSingleTileOnly = true
+Angle = 74.8
+ShowPoly = false

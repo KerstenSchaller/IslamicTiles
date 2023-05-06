@@ -34,10 +34,6 @@ public class HankinLine : Node2D, ILine
 		get
 		{
 			if (neighbour == null) return originPoint + direction * 25;
-			shiftPoint();
-			init();
-			endPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { neighbour.Start, neighbour.Start + neighbour.direction });
-			endNode.setPosition(endPoint);
 			return endPoint;
 		}
 	}
@@ -89,6 +85,14 @@ public class HankinLine : Node2D, ILine
 
 		id = numberOfHankinsLines;
 		numberOfHankinsLines++;
+	}
+
+	public override void _Process(float delta)
+	{
+			shiftPoint();
+			init();
+			endPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { neighbour.Start, neighbour.Start + neighbour.direction });
+			endNode.setPosition(endPoint);
 	}
 
 	public void connect()

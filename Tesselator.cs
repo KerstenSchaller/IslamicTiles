@@ -29,7 +29,11 @@ public class Tesselator : Node2D
 
 	public IShape shapePoly;
 
-
+	List<GraphNode[]> polys = new List<GraphNode[]>();
+	public void addPolys(List<GraphNode[]> _polys)
+	{
+		polys = _polys;
+	}
 
 	public void addPolygonSide(PolygonSide polySide)
 	{
@@ -131,7 +135,21 @@ public class Tesselator : Node2D
 					{
 						var start = (scale*p.Start + offset);
 						var end = (scale*p.End + offset);
-						DrawLine(start, end, Colors.SeaGreen);
+						DrawLine(start, end, Colors.Red, 3);
+					}
+				}
+
+				if (true)
+				{
+					// Draw all hankinslines multiple times over the plane 
+					for (int i=0;i < polys.Count-1;i++)
+					{
+						Vector2[] tPoly = new Vector2[polys[i].Length];
+						for(int j=0;j < polys[i].Length;j++)
+						{
+							tPoly[j] = scale*polys[i][j].getPosition() + offset;
+						}
+						DrawPolygon( tPoly, new Color[]{ Colors.SeaGreen});
 					}
 				}
 			}
