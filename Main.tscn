@@ -9,4 +9,7 @@ script = ExtResource( 2 )
 [node name="HankinsLineOptions" type="Node2D" parent="."]
 script = ExtResource( 1 )
 Angle = 74.8
+Color1 = Color( 1, 1, 1, 1 )
+Color2 = Color( 0.188235, 0.188235, 0.917647, 1 )
+Color3 = Color( 0.211765, 0.45098, 0.662745, 1 )
 ShowPoly = false

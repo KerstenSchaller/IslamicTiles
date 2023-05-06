@@ -4,39 +4,63 @@ using System;
 public class HankinsOptions : Node
 {
 
-    public static double angleFromBase = Math.PI / 4;
+	public static double angleFromBase = Math.PI / 4;
 
-    [Export(PropertyHint.Range, "0,90,1.1")]
-    public double Angle
-    {
-        get { return angleFromBase * 180 / Math.PI; }
-        set { angleFromBase = value * Math.PI / 180; }
-    }
+	[Export(PropertyHint.Range, "0,90,1.1")]
+	public double Angle
+	{
+		get { return angleFromBase * 180 / Math.PI; }
+		set { angleFromBase = value * Math.PI / 180; }
+	}
 
-    public static float offset;
+	public static float offset;
 
-    [Export(PropertyHint.Range, "0,50,1.1")]
-    public double Offset
-    {
-        get { return offset; }
-        set { offset = (float)value; }
-    }
+	[Export(PropertyHint.Range, "0,50,1.1")]
+	public double Offset
+	{
+		get { return offset; }
+		set { offset = (float)value; }
+	}
 
-    public enum Shapes
-    {
-        Hexagon,
-        Square
-    }
+	public enum Shapes
+	{
+		Hexagon,
+		Square
+	}
 
-    public static Shapes shape = Shapes.Hexagon;
-    [Export]
-    public Shapes Shape
-    {
-        get { return shape; }
-        set { shape = (Shapes)value; }
-    }
+	public static Shapes shape = Shapes.Hexagon;
+	[Export]
+	public Shapes Shape
+	{
+		get { return shape; }
+		set { shape = (Shapes)value; }
+	}
 
-    public static bool showPoly = true;
+	public static Color color1 = Colors.Green;
+	[Export]
+	public Color Color1
+	{
+		get { return color1; }
+		set { color1 = (Color)value; }
+	}
+
+	public static Color color2 = Colors.Blue;
+	[Export]
+	public Color Color2
+	{
+		get { return color2; }
+		set { color2 = (Color)value; }
+	}
+
+	public static Color color3 = Colors.Purple;
+	[Export]
+	public Color Color3
+	{
+		get { return color3; }
+		set { color3 = (Color)value; }
+	}
+
+	public static bool showPoly = true;
 	[Export(PropertyHint.Flags)]
 	public bool ShowPoly
 	{
@@ -44,7 +68,7 @@ public class HankinsOptions : Node
 		set { showPoly = (bool)value; }
 	}
 
-    public static bool printSingleTileOnly = false;
+	public static bool printSingleTileOnly = false;
 	[Export(PropertyHint.Flags)]
 	public bool PrintSingleTileOnly
 	{

@@ -49,18 +49,18 @@ public class Tesselator : Node2D
 	{
 		var size = GetViewport().Size;
 		width = (int)((size.x / 100) + 2);
-		height = (int)((size.y / 100) + 2);
+		height = (int)((size.y / 100) + 4);
 
 		if (HankinsOptions.printSingleTileOnly)
 		{
 			width = 1;
 			height = 1;
-			originShift = new Vector2(200,200);
+			originShift = new Vector2(200, 200);
 			scale = 3;
 		}
 		else
 		{
-			originShift = new Vector2(-100,-100);
+			originShift = new Vector2(-100, -100);
 			scale = 1;
 		}
 	}
@@ -109,6 +109,7 @@ public class Tesselator : Node2D
 	public override void _Draw()
 	{
 		if (shapePoly == null) return;
+		if(polys.Count == 0 )return;
 		getScreenSize();
 		for (int y = 0; y < height; y++)
 		{
@@ -117,15 +118,29 @@ public class Tesselator : Node2D
 				// Draw all polygonlines multiple times over the plane 
 				var offset = originShift + new Vector2(x * (float)shapePoly.getXDist() + (y % 2) * (float)shapePoly.getXOffset(), y * (float)shapePoly.getYDist() + (x % 2) * (float)shapePoly.getYOffset());
 
-				if (HankinsOptions.showPoly)
-				{
-					foreach (var p in polygonSides)
-					{
-						var start = (scale*p.Start + offset);
-						var end = (scale*p.End + offset);
-						DrawLine(start, end, Colors.Gray);
-					}
+			
 
+
+				if (true)
+				{
+					// Draw all hankinslines multiple times over the plane 
+					Vector2[] tPoly;
+					for (int i = 0; i < polys.Count - 1; i++)
+					{
+						tPoly = new Vector2[polys[i].Length];
+						for (int j = 0; j < polys[i].Length; j++)
+						{
+							tPoly[j] = scale * polys[i][j].getPosition() + offset;
+						}
+						DrawPolygon(tPoly, new Color[] { HankinsOptions.color3 });
+					}
+					// print last ,"inner" Polygon
+					tPoly = new Vector2[polys[polys.Count-1].Length];
+					for (int j = 0; j < polys[polys.Count-1].Length; j++)
+					{
+						tPoly[j] = scale * polys[polys.Count-1][j].getPosition() + offset;
+					}
+					DrawPolygon(tPoly, new Color[] { HankinsOptions.color2});
 				}
 
 				if (true)
@@ -133,25 +148,23 @@ public class Tesselator : Node2D
 					// Draw all hankinslines multiple times over the plane 
 					foreach (var p in hankinslines)
 					{
-						var start = (scale*p.Start + offset);
-						var end = (scale*p.End + offset);
-						DrawLine(start, end, Colors.Red, 3);
+						var start = (scale * p.Start + offset);
+						var end = (scale * p.End + offset);
+						DrawLine(start, end, HankinsOptions.color1, 1);
 					}
 				}
 
-				if (true)
+				if (HankinsOptions.showPoly)
 				{
-					// Draw all hankinslines multiple times over the plane 
-					for (int i=0;i < polys.Count-1;i++)
+					foreach (var p in polygonSides)
 					{
-						Vector2[] tPoly = new Vector2[polys[i].Length];
-						for(int j=0;j < polys[i].Length;j++)
-						{
-							tPoly[j] = scale*polys[i][j].getPosition() + offset;
-						}
-						DrawPolygon( tPoly, new Color[]{ Colors.SeaGreen});
+						var start = (scale * p.Start + offset);
+						var end = (scale * p.End + offset);
+						DrawLine(start, end, Colors.White);
 					}
+
 				}
+
 			}
 		}
 
