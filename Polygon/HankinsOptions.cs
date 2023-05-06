@@ -25,7 +25,8 @@ public class HankinsOptions : Node
 	public enum Shapes
 	{
 		Hexagon,
-		Square
+		Square,
+		MultiTile
 	}
 
 	public static Shapes shape = Shapes.Hexagon;

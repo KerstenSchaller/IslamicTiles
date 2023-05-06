@@ -20,7 +20,10 @@ public class GraphNode : Node2D
 	}
 
 	public Vector2 getPosition(){return this.pos;}
-	 
+	
+	public IShape shape;
+	public void setShape(IShape _shape){shape = _shape;}
+
 	public override void _Ready()
 	{
 

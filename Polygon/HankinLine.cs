@@ -2,6 +2,17 @@ using Godot;
 using System;
 
 using System.Collections.Generic; //for list
+
+public class HankinLineCollector
+{
+	int numberOfHankinsLines = 0;
+	public List<HankinLine> allHankinLines = new List<HankinLine>();
+	public int addHankinsline(HankinLine hankinLine){allHankinLines.Add(hankinLine);numberOfHankinsLines++;return numberOfHankinsLines-1 ;}
+	public int NumberOfHankinLines{get{return allHankinLines.Count;}}
+
+	 
+
+}
 public class HankinLine : Node2D, ILine
 {
 	Vector2 originPoint;
@@ -10,10 +21,11 @@ public class HankinLine : Node2D, ILine
 
 	public Vector2 direction;
 
+    public IShape Shape {get{ return (IShape)GetParent().GetParent().GetParent();}}
 
 	bool angleInverted;
 	int id;
-	static int numberOfHankinsLines = 0;
+
 
 	HankinLine neighbour;
 	HankinLine sameSideNeigbour;
@@ -21,7 +33,6 @@ public class HankinLine : Node2D, ILine
 	double baseAngle; // angle of the polygonline the hankinlines originates from
 
 
-	bool isVisible = false;
 
 	GraphNode startNode;
 	GraphNode endNode;
@@ -46,13 +57,21 @@ public class HankinLine : Node2D, ILine
 		sameSideNeigbour = _sameSideNeighbour;
 	}
 
-	static List<HankinLine> allHankinLines = new List<HankinLine>();
+	
 
 	Tesselator tesselator;
 	Graph graph;
-	public void init(Vector2 origin, double _baseAngle, bool inverted, Graph _graph)
+	HankinLineCollector hankinLineCollector;
+	public void init(Vector2 origin, double _baseAngle, bool inverted, Graph _graph, HankinLineCollector _hankinLineCollector)
 	{
-		this.isVisible = true;
+		hankinLineCollector = _hankinLineCollector;
+
+		// add this to the tesselator so it can draw copys of it
+		var t = GetTree().GetNodesInGroup("Tesselator");
+		tesselator = (Tesselator)t[0];
+		tesselator.addHankinsline(this);
+		id = hankinLineCollector.addHankinsline(this);
+
 		angleInverted = inverted;
 
 		originPoint = origin;
@@ -67,6 +86,12 @@ public class HankinLine : Node2D, ILine
 		graph.addGraphNode(startNode);
 		graph.addGraphNode(intersectionNode);
 		graph.addGraphNode(endNode);
+
+		// set shape the parent shape to the nodes, will be used for individual offsets
+		IShape shape = (IShape)GetParent().GetParent().GetParent();
+		startNode.setShape(shape);
+		intersectionNode.setShape(shape);
+		endNode.setShape(shape);
 
 		AddChild(startNode);
 		AddChild(endNode);
@@ -85,17 +110,7 @@ public class HankinLine : Node2D, ILine
 
 
 	 
-	public override void _Ready()
-	{
-		// add this to the tesselator so it can draw copys of it
-		var t = GetTree().GetNodesInGroup("Tesselator");
-		tesselator = (Tesselator)t[0];
-		tesselator.addHankinsline(this);
-		allHankinLines.Add(this);
 
-		id = numberOfHankinsLines;
-		numberOfHankinsLines++;
-	}
 
 	public override void _Process(float delta)
 	{
@@ -112,13 +127,13 @@ public class HankinLine : Node2D, ILine
 		int neighbourId = (angleInverted) ? id - 1 : id + 1;
 		if (id == 0 && angleInverted)
 		{
-			neighbourId = numberOfHankinsLines - 1;
+			neighbourId = hankinLineCollector.NumberOfHankinLines - 1;
 		}
-		if (id == numberOfHankinsLines - 1 && !angleInverted)
+		if (id == hankinLineCollector.NumberOfHankinLines - 1 && !angleInverted)
 		{
 			neighbourId = 0;
 		}
-		neighbour = allHankinLines[neighbourId];
+		neighbour = hankinLineCollector.allHankinLines[neighbourId];
 	}
 
 	void shiftPoint()

@@ -7,14 +7,14 @@ public class Graph : Node2D
 {
 	public enum NodeType { Edge, Inner }
 
-	static int nextId = 0;
+	int nextId = 0;
 	Dictionary<int, GraphNode> nodes = new Dictionary<int, GraphNode>();
 
-	static IShape shape;
+	//static IShape shape;
 
 	List<GraphNode[]> polys = new List<GraphNode[]>();
 
-	public void addShape(IShape _shape) { shape = _shape; }
+	//public void addShape(IShape _shape) { shape = _shape; }
 
 	public void addGraphNode(GraphNode node)
 	{
@@ -42,16 +42,20 @@ public class Graph : Node2D
 
 	public void buildGraphConnections()
 	{
-		foreach (var n in nodes) n.Value.clearNeighbours();
-		connectPolygonEdgeNodes();
-
-		var l = shape.getSideLength();
+		//foreach (var n in nodes) n.Value.clearNeighbours();
+		//connectPolygonEdgeNodes();
+		if(nodes.Count == 0)return;
+		var l = nodes[0].shape.getSideLength();
 		var o = HankinsOptions.offset;
 		var nXPos = nodes[3].getPosition().x;
 
 
 		StupidGraphSolver graphSolver = new StupidGraphSolver(nodes);
 		AddChild(graphSolver);
+		polys = graphSolver.getPolygons(1);
+		return;
+		
+		/*
 		// case 1: No addtional intersection nodes
 		if (o == 0)
 		{
@@ -71,14 +75,14 @@ public class Graph : Node2D
 		{
 			//GraphSolver graphSolver = new GraphSolver();
 		}
-
+		*/
 
 
 	}
 
 	private void case1Connections()
 	{
-		int n = shape.getNumberOfVertices();
+		int n = nodes[0].shape.getNumberOfVertices();
 		for (int i = 0; i < n; i++)
 		{
 			// connect along the border of the polygon
@@ -119,7 +123,7 @@ public class Graph : Node2D
 
 	void connectPolygonEdgeNodes()
 	{
-		int n = shape.getNumberOfVertices();
+		int n = nodes[0].shape.getNumberOfVertices();
 		for (int i = 0; i < n; i++)
 		{
 			// connect along the border of the polygon

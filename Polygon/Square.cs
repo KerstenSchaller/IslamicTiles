@@ -3,14 +3,14 @@ using System;
 
 using System.Collections.Generic; //for list
 
-
-
-public class Square : Node2D, IShape
+public class SquarePattern : IPattern
 {
-   
-	Polygon polygon = new Polygon();
-	int scale = 100;
+	int scale;
 
+	public void init(int _scale)
+	{
+		scale = _scale;
+	}
 	public double getXDist()
 	{
 		return scale;
@@ -30,12 +30,23 @@ public class Square : Node2D, IShape
 	{
 		return 0;
 	}
+}
+
+public class Square : Node2D, IShape
+{
+   
+	Polygon polygon = new Polygon();
+	int scale = 100;
+
+	public IPattern pattern;
+
+	public IPattern Pattern{get{return pattern;}}
 
 	public override void _Ready()
 	{
 		Graph graph = new Graph();
 		AddChild(graph);
-		graph.addShape(this);
+		//graph.addShape(this);
 
 		this.AddChild(polygon);
 		var vertices = new Vector2[]{new Vector2(0,0),new Vector2(0,scale),new Vector2(scale,scale),new Vector2(scale,0)};

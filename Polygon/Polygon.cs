@@ -13,12 +13,15 @@ public class Polygon : Godot.Node2D
     {
         var pos = this.Position;
         vertices.AddRange(_vertices);
+        HankinLineCollector hankinLineCollector = new HankinLineCollector();
 
         // create polygonSides
         for (int i = 0; i < vertices.Count; i++)
         {
             // create node from vertice 
             var node = new GraphNode();
+            IShape shape = (IShape)GetParent();
+            node.setShape(shape);
             node.setPosition(vertices[i]);
             graph.addGraphNode(node);
             AddChild(node);
@@ -39,10 +42,9 @@ public class Polygon : Godot.Node2D
 
             // create side
             var side = new PolygonSide();
-            side.init(start, end, graph);
-
-            polygonSides.Add(side);
             this.AddChild(side);
+            side.init(start, end, graph, hankinLineCollector);
+            polygonSides.Add(side);
 
         }
         foreach (var p in polygonSides)
@@ -51,9 +53,6 @@ public class Polygon : Godot.Node2D
         }
     }
 
-
-
-    int scale = 100;
 
      
     public override void _Ready()

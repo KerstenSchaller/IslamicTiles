@@ -10,11 +10,13 @@ public class PolygonSide : Node2D, ILine
 	public Vector2 Start { get { return startPoint; } }
 	public Vector2 End { get { return endPoint; } }
 
-	HankinLine hankinLine1;
+    public IShape Shape {get{ return (IShape)GetParent().GetParent();}}
+
+    HankinLine hankinLine1;
 	HankinLine hankinLine2;
 
 
-	public void init(Vector2 start, Vector2 end, Graph _graph)
+	public void init(Vector2 start, Vector2 end, Graph _graph, HankinLineCollector hankinLineCollector)
 	{
 		startPoint = start;
 		endPoint = end;
@@ -27,13 +29,15 @@ public class PolygonSide : Node2D, ILine
 		var diff = endPoint - startPoint;
 		var lineAngle = Math.Atan2((endPoint.y - startPoint.y), endPoint.x - startPoint.x);
 
+		
+
 		hankinLine1 = new HankinLine();
 		AddChild(hankinLine1);
-		hankinLine1.init(midPoint, lineAngle, true, _graph);
+		hankinLine1.init(midPoint, lineAngle, true, _graph, hankinLineCollector);
 
 		hankinLine2 = new HankinLine();
 		AddChild(hankinLine2);
-		hankinLine2.init(midPoint, lineAngle, false, _graph);
+		hankinLine2.init(midPoint, lineAngle, false, _graph, hankinLineCollector);
 
 		hankinLine1.addSameSideNeighbour(hankinLine2);
 		hankinLine2.addSameSideNeighbour(hankinLine1);
