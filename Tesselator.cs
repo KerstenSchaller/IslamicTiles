@@ -111,8 +111,6 @@ public class Tesselator : Node2D
     public override void _Process(float delta)
     {
         var size = GetViewport().Size;
-        //width = (int)((size.x / shapePoly.Pattern.getXDist()) + 2);
-        //height = (int)((size.y / shapePoly.Pattern.getYDist()) + 2);
 		width = 50;
 		height = 15;
         Update();

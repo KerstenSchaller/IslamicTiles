@@ -107,24 +107,9 @@ class StupidGraphSolver : Node
     private List<GraphNode[]> getPolygons3()
     {
 
-        int nSides = graph.Count / 5;
-        List<GraphNode[]> retval = new List<GraphNode[]>();
-        GraphNode[] innerLoop = new GraphNode[nSides * 2];
-        for (int i = 0; i < nSides; i++)
-        {
-            GraphNode[] loop = new GraphNode[4];
-            loop[0] = graph[(i * 5)];
-            loop[1] = graph[(i * 5) + 4];
-            loop[2] = graph[(i * 5) + 3];
-            loop[3] = graph[i == 0 ? graph.Count - 6 : (i * 5) - 6];
-            retval.Add(loop);
-            innerLoop[i * 2] = graph[(i * 5) + 1];
-            innerLoop[(i * 2) + 1] = graph[i == nSides - 1 ? 3 : (i * 5) + 6];
+        throw new NotImplementedException();
 
-        }
-        retval.Add(innerLoop);
-
-        return retval;
+        return new List<GraphNode[]>();
     }
 
 
