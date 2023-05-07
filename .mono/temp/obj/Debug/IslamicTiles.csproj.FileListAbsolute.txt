@@ -1,9 +1,0 @@
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\bin\Debug\IslamicTiles.dll
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\bin\Debug\IslamicTiles.pdb
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\obj\Debug\IslamicTiles.csproj.AssemblyReference.cache
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\obj\Debug\IslamicTiles.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\obj\Debug\IslamicTiles.AssemblyInfoInputs.cache
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\obj\Debug\IslamicTiles.AssemblyInfo.cs
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\obj\Debug\IslamicTiles.csproj.CoreCompileInputs.cache
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\obj\Debug\IslamicTiles.dll
-C:\Users\kerst\Documents\GodotProjects\IslamicTiles\.mono\temp\obj\Debug\IslamicTiles.pdb
