@@ -125,8 +125,6 @@ public class Tesselator : Node2D
             for (int x = 0; x < width; x++)
             {
                 // Draw all polygonlines multiple times over the plane 
-
-
                 if (HankinsOptions.showPoly)
                 {
                     // Draw all hankinslines multiple times over the plane 

@@ -7,7 +7,7 @@ using System.Collections.Generic; //for list
 class MultiTilePattern : Node, IShape
 {
 	Polygon octagon = new Polygon();
-	double LengthOctagon{get{return (scale + 2*scale*(new Vector2(1,1)).x);}}
+	double LengthOctagon{get{return (scale + 2*(new Vector2(1,1)).Normalized().x*scale);}}
 
 	public IPattern Pattern {get{return pattern;}}
 
@@ -21,8 +21,8 @@ class MultiTilePattern : Node, IShape
 	{
 		pattern = new Pattern();
 		pattern.setXDist(scale+LengthOctagon);
-		pattern.setYDist(scale+scale*(new Vector2(1,1)).x);
-		pattern.setXOffset(scale+scale*(new Vector2(1,1)).x);
+		pattern.setYDist(scale+(new Vector2(1,1).Normalized().x*scale));
+		pattern.setXOffset(scale+(new Vector2(1,1).Normalized().x*scale));
 		pattern.setYOffset(0);
 
 		createSquare();
@@ -48,12 +48,12 @@ class MultiTilePattern : Node, IShape
 
 		vertices[0] = new Vector2(scale, 0);
 		vertices[1] = new Vector2(scale, scale);
-		vertices[2] = vertices[1] + scale * new Vector2(1, 1);
-		vertices[3] = vertices[2] + scale * new Vector2(1, 0);
-		vertices[4] = vertices[3] + scale * new Vector2(1, -1);
-		vertices[5] = vertices[4] + scale * new Vector2(0, -1);
-		vertices[6] = vertices[5] + scale * new Vector2(-1, -1);
-		vertices[7] = vertices[6] + scale * new Vector2(-1, 0);
+		vertices[2] = vertices[1] + scale * new Vector2(1, 1).Normalized();
+		vertices[3] = vertices[2] + scale * new Vector2(1, 0).Normalized();
+		vertices[4] = vertices[3] + scale * new Vector2(1, -1).Normalized();
+		vertices[5] = vertices[4] + scale * new Vector2(0, -1).Normalized();
+		vertices[6] = vertices[5] + scale * new Vector2(-1, -1).Normalized();
+		vertices[7] = vertices[6] + scale * new Vector2(-1, 0).Normalized();
 
 
 		AddChild(octagon);

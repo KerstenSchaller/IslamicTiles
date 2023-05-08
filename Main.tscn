@@ -8,7 +8,8 @@ script = ExtResource( 2 )
 
 [node name="HankinsLineOptions" type="Node2D" parent="."]
 script = ExtResource( 1 )
-Angle = 45.1
-Offset = 5.5
+Angle = 51.7
 Shape = 2
-_Colors = PoolColorArray( 0, 0, 0, 1, 0.192157, 0, 0.980392, 1, 0.196078, 0.792157, 0.666667, 1, 0.207843, 0.309804, 0.662745, 1 )
+_Colors = PoolColorArray( 1, 1, 1, 1, 0.0431373, 0.537255, 0.0392157, 1, 0.356863, 0.00784314, 0.00784314, 1, 0.027451, 0.0705882, 0.431373, 1 )
+
+[node name="Node2D" type="Node2D" parent="."]

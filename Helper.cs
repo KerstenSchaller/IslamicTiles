@@ -76,6 +76,7 @@ public static class LineHelper
 		double ua = nominatorUA/denominatorUA;
 
 		// lines are paralell
+		//if(-0.08 < denominatorUA && denominatorUA < 0.08)
 		if(denominatorUA == 0)
 		{
 			// return midpoint 
