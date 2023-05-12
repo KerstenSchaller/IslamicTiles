@@ -7,6 +7,7 @@ public class main : Node2D
 	{
 		Tesselator tesselator = new Tesselator();
 		AddChild(tesselator);
+		tesselator.init();
 	}
 
 

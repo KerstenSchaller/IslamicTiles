@@ -78,10 +78,8 @@ public class Tesselator : Node2D
         }
     }
 
-    public override void _Ready()
+    public void init()
     {
-        this.AddToGroup("Tesselator");
-
         getScreenSize();
         switch (HankinsOptions.shape)
         {
@@ -102,7 +100,18 @@ public class Tesselator : Node2D
 
                 AddChild(node3);
                 break;
+            case HankinsOptions.Shapes.OctagonRosette:
+                OctagonRosette node4 = new OctagonRosette();
+                AddChild(node4);
+                break;
         }
+    }
+
+    public override void _Ready()
+    {
+        this.AddToGroup("Tesselator");
+
+
 
 
     }

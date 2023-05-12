@@ -6,8 +6,8 @@ using System.Collections.Generic; //for list
 
 public class Polygon : Godot.Node2D
 {
-    List<Vector2> vertices;
-    List<PolygonSide> polygonSides;
+    List<Vector2> vertices = new List<Vector2>();
+    List<PolygonSide> polygonSides = new List<PolygonSide>();
 
     public void init(Vector2[] _vertices, Graph graph)
     {

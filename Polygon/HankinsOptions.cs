@@ -26,7 +26,8 @@ public class HankinsOptions : Node
 	{
 		Hexagon,
 		Square,
-		MultiTile
+		MultiTile, 
+		OctagonRosette
 	}
 
 	public static Shapes shape = Shapes.Hexagon;
