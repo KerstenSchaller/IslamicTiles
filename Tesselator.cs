@@ -9,7 +9,6 @@ public interface IShape
 
     int getNumberOfVertices();
 
-	IPattern Pattern{get;}
 }
 
 public class Tesselator : Node2D
@@ -17,6 +16,8 @@ public class Tesselator : Node2D
 
     int width;
     int height;
+
+    IPattern pattern;
 
     Vector2 originShift;
     int scale = 1;
@@ -84,44 +85,44 @@ public class Tesselator : Node2D
         switch (HankinsOptions.shape)
         {
             case HankinsOptions.Shapes.Square:
-                Square node = new Square();
-				SquarePattern sPattern = new SquarePattern();
-				node.pattern = sPattern;
-                AddChild(node);
+                pattern = new SquarePattern();
+                AddChild((SquarePattern)pattern);
+                ((SquarePattern)pattern).init(100);
                 break;
             case HankinsOptions.Shapes.Hexagon:
-                Hexagon node2 = new Hexagon();
-				HexagonPattern hPattern = new HexagonPattern();
-				node2.pattern = hPattern;
-                AddChild(node2);
+                pattern = new HexagonPattern();
+                AddChild((HexagonPattern)pattern);
                 break;
-			case HankinsOptions.Shapes.MultiTile:
-                MultiTilePattern node3 = new MultiTilePattern();
 
-                AddChild(node3);
+            case HankinsOptions.Shapes.MultiTile:
+                pattern = new MultiTilePattern();
+                AddChild((MultiTilePattern)pattern);
                 break;
-            case HankinsOptions.Shapes.OctagonRosette:
-                OctagonRosette node4 = new OctagonRosette();
-                AddChild(node4);
-                break;
+                /*
+           case HankinsOptions.Shapes.OctagonRosette:
+               OctagonRosette node4 = new OctagonRosette();
+               AddChild(node4);
+               break;
+               */
         }
     }
 
     public override void _Ready()
     {
         this.AddToGroup("Tesselator");
+    }
 
-
-
-
+    public Tesselator()
+    {
+        this.AddToGroup("Tesselator");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
         var size = GetViewport().Size;
-		width = 50;
-		height = 15;
+        width = 50;
+        height = 15;
         Update();
     }
 
@@ -141,7 +142,7 @@ public class Tesselator : Node2D
                     for (int i = 0; i < polys.Count; i++)
                     {
                         var shape = polys[i][0].shape;
-                        var offset = originShift + new Vector2(x * (float)shape.Pattern.getXDist() + (y % 2) * (float)shape.Pattern.getXOffset(), y * (float)shape.Pattern.getYDist() + (x % 2) * (float)shape.Pattern.getYOffset());
+                        var offset = originShift + new Vector2(x * (float)pattern.getXDist() + (y % 2) * (float)pattern.getXOffset(), y * (float)pattern.getYDist() + (x % 2) * (float)pattern.getYOffset());
                         tPoly = new Vector2[polys[i].Length];
                         for (int j = 0; j < polys[i].Length; j++)
                         {
@@ -158,7 +159,7 @@ public class Tesselator : Node2D
                     foreach (var p in hankinslines)
                     {
                         var shape = p.Shape;
-                        var offset = originShift + new Vector2(x * (float)shape.Pattern.getXDist() + (y % 2) * (float)shape.Pattern.getXOffset(), y * (float)shape.Pattern.getYDist() + (x % 2) * (float)shape.Pattern.getYOffset());
+                        var offset = originShift + new Vector2(x * (float)pattern.getXDist() + (y % 2) * (float)pattern.getXOffset(), y * (float)pattern.getYDist() + (x % 2) * (float)pattern.getYOffset());
 
                         var start = (scale * p.Start + offset);
                         var end = (scale * p.End + offset);
@@ -171,7 +172,7 @@ public class Tesselator : Node2D
                     foreach (var p in polygonSides)
                     {
                         var shape = p.Shape;
-                        var offset = originShift + new Vector2(x * (float)shape.Pattern.getXDist() + (y % 2) * (float)shape.Pattern.getXOffset(), y * (float)shape.Pattern.getYDist() + (x % 2) * (float)shape.Pattern.getYOffset());
+                        var offset = originShift + new Vector2(x * (float)pattern.getXDist() + (y % 2) * (float)pattern.getXOffset(), y * (float)pattern.getYDist() + (x % 2) * (float)pattern.getYOffset());
 
                         var start = (scale * p.Start + offset);
                         var end = (scale * p.End + offset);

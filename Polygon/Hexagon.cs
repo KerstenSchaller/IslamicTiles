@@ -3,42 +3,30 @@ using System;
 
 using System.Collections.Generic; //for list
 
-public class HexagonPattern : IPattern
+public class HexagonPattern : Node, IPattern
 {
 	List<Vector2> vertices = new List<Vector2>();
+	Hexagon hexagon;
 
-	private void CreateHexagonVertices()
-	{
-		int numberOfVertices = 6;
-		int radius = 60;
-		for (int i = 0; i < numberOfVertices; i++)
-		{
-			float angle_deg = -60 * i + 30;
-			float angle_rad = (float)Math.PI / 180 * angle_deg;
-			float x = radius * (float)Math.Cos(angle_rad);
-			float y = radius * (float)Math.Sin(angle_rad);
-			vertices.Add(new Vector2(x, y));
-		}
+	public override void _Ready()
+	{ 
+		hexagon = new Hexagon();
+		AddChild(hexagon);	
 	}
-
-	public HexagonPattern(){CreateHexagonVertices();}
 
 	public double getXDist()
 	{
-		if (vertices.Count == 0) return 100;
-		return (vertices[0] - vertices[4]).Length();
+		return (hexagon.Vertices[0] - hexagon.Vertices[4]).Length();
 	}
 
 	public double getYDist()
 	{
-		if (vertices.Count == 0) return 100;
-		return Math.Abs((vertices[0].y - vertices[2].y));
+		return Math.Abs((hexagon.Vertices[0].y - hexagon.Vertices[2].y));
 	}
 
 	public double getXOffset()
 	{
-		if (vertices.Count == 0) return 100;
-		return (vertices[0] - vertices[4]).Length() / 2;
+		return (hexagon.Vertices[0] - hexagon.Vertices[4]).Length() / 2;
 	}
 
 	public double getYOffset()
@@ -50,13 +38,12 @@ public class HexagonPattern : IPattern
 public class Hexagon : Node2D, IShape
 {
 	List<Vector2> vertices = new List<Vector2>();
+	public List<Vector2> Vertices{get{return vertices;}}
 	Polygon polygon = new Polygon();
 
-	public IPattern pattern;
-
-	public IPattern Pattern{get{return pattern;}}
-	private void CreateHexagonVertices()
+	private List<Vector2> CreateHexagonVertices()
 	{
+		List<Vector2> _vertices = new List<Vector2>();
 		int numberOfVertices = 6;
 		int radius = 60;
 		for (int i = 0; i < numberOfVertices; i++)
@@ -65,8 +52,9 @@ public class Hexagon : Node2D, IShape
 			float angle_rad = (float)Math.PI / 180 * angle_deg;
 			float x = radius * (float)Math.Cos(angle_rad);
 			float y = radius * (float)Math.Sin(angle_rad);
-			vertices.Add(new Vector2(x, y));
+			_vertices.Add(new Vector2(x, y));
 		}
+		return _vertices;
 	}
 
 	public double getSideLength()
@@ -79,13 +67,11 @@ public class Hexagon : Node2D, IShape
 	{
 		Graph graph = new Graph();
 		AddChild(graph);
-		//graph.addShape(this);
-
 		this.AddChild(polygon);
-		CreateHexagonVertices();
+
+		vertices = CreateHexagonVertices();
 		polygon.init(vertices.ToArray(), graph);
 		graph.buildGraphConnections();
-
 
 	}
 
@@ -94,8 +80,6 @@ public class Hexagon : Node2D, IShape
 	{
 
 	}
-
-	
 
 	public int getNumberOfVertices()
 	{

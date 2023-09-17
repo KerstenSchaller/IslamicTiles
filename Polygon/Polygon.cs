@@ -59,8 +59,6 @@ public class Polygon : Godot.Node2D
     {
         vertices = new List<Vector2>();
         polygonSides = new List<PolygonSide>();
-
-
     }
 
 }
