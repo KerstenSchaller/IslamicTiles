@@ -59,6 +59,7 @@ public class GraphNode : Node2D
 		//DrawString(font, 3*this.pos + new Vector2(200,200), id.ToString(), Colors.Black);
 		
 		
+		
 	}
 
 

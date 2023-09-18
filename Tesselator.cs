@@ -109,6 +109,7 @@ public class Tesselator : Node2D
 
     public override void _Ready()
     {
+        
         this.AddToGroup("Tesselator");
     }
 
@@ -177,6 +178,8 @@ public class Tesselator : Node2D
                         var start = (scale * p.Start + offset);
                         var end = (scale * p.End + offset);
                         DrawLine(start, end, Colors.White);
+                
+                        
                     }
 
                 }
