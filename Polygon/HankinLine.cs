@@ -108,10 +108,6 @@ public class HankinLine : Node2D, ILine
 		direction = new Vector2((float)Math.Cos(dirAngle), (float)Math.Sin(dirAngle));
     }
 
-
-	 
-
-
 	public override void _Process(float delta)
 	{
 			shiftPoint();
@@ -139,7 +135,9 @@ public class HankinLine : Node2D, ILine
 	void shiftPoint()
 	{
 		var dir = new Vector2((float)Math.Cos(baseAngle),(float)Math.Sin(baseAngle));
-		startPoint = (angleInverted) ? originPoint + dir*(float)HankinsOptions.offset : originPoint - dir*(float)HankinsOptions.offset;
+		// Limit offset depending of sidelength of the shape
+		float offset = ((HankinsOptions.ShapesSideLength/2) - (float)HankinsOptions.offset) >= 0 ? (float)HankinsOptions.offset :  HankinsOptions.ShapesSideLength/2;
+		startPoint = (angleInverted) ? originPoint + dir*offset : originPoint - dir*offset;
 		startNode.setPosition(startPoint);
 	}
 

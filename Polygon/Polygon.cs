@@ -15,6 +15,9 @@ public class Polygon : Godot.Node2D
         vertices.AddRange(_vertices);
         HankinLineCollector hankinLineCollector = new HankinLineCollector();
 
+        //set length of one segment in options to be used by other parts of the program
+        HankinsOptions.ShapesSideLength = (vertices[0] - vertices[1]).Length();
+
         // create polygonSides
         for (int i = 0; i < vertices.Count; i++)
         {

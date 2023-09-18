@@ -54,9 +54,19 @@ public class Tesselator : Node2D
         polygonSides.Add(polySide);
     }
 
+    public void clearPolygonSides()
+    {
+        polygonSides.Clear();
+    }
+
     public void addHankinsline(HankinLine polySide)
     {
         hankinslines.Add(polySide);
+    }
+
+    public void clearHankinLines()
+    {
+        hankinslines.Clear();
     }
 
     void getScreenSize()
@@ -104,6 +114,9 @@ public class Tesselator : Node2D
                AddChild(node4);
                break;
                */
+            default:
+                GD.Print("No valid pattern");
+            break;
         }
     }
 
@@ -118,9 +131,39 @@ public class Tesselator : Node2D
         this.AddToGroup("Tesselator");
     }
 
+    void deleteChildrenRecursively(Node node)
+    {
+        foreach(Node n in node.GetChildren())
+        {
+            deleteChildrenRecursively(n);
+        }
+        node.QueueFree();
+    }
+
+    void reset()
+    {
+        clearPolys();
+        clearHankinLines();
+        clearPolygonSides();
+        foreach(Node n in this.GetChildren())
+        {
+            deleteChildrenRecursively(n);
+        }
+        pattern = null;
+        init();
+    }
+
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
+        if(HankinsOptions.resetRequest == true)
+        {
+            HankinsOptions.resetRequest = false;
+            reset();
+        }
+
+
+
         var size = GetViewport().Size;
         width = 50;
         height = 15;
@@ -188,6 +231,8 @@ public class Tesselator : Node2D
             }
         }
         clearPolys();
+        //clearHankinLines();
+        //clearPolygonSides();
 
 
     }
