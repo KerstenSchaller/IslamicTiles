@@ -30,7 +30,7 @@ public class HankinsOptions : Node
 
 	public static Shapes shape = Shapes.Hexagon;
 
-	public static Color[] colors;
+	public static Color[] colors = new Color[3];
 	[Export]
 	public Color[] _Colors
 	{
