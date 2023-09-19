@@ -3,14 +3,6 @@ using System;
 
 using System.Collections.Generic; //for list
 
-public interface IShape
-{
-    double getSideLength();
-
-    int getNumberOfVertices();
-
-}
-
 public class Shape : Node2D
 {
         public List<Vector2> vertices;

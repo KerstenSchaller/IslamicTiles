@@ -21,7 +21,6 @@ public class HankinLine : Node2D, ILine
 
 	public Vector2 direction;
 
-    public IShape Shape {get{ return (IShape)GetParent().GetParent().GetParent();}}
 
 	bool angleInverted;
 	int id;

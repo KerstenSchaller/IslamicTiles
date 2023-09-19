@@ -10,7 +10,6 @@ public class PolygonSide : Node2D, ILine
 	public Vector2 Start { get { return startPoint; } }
 	public Vector2 End { get { return endPoint; } }
 
-    public IShape Shape {get{ return (IShape)GetParent().GetParent();}}
 
     HankinLine hankinLine1;
 	HankinLine hankinLine2;

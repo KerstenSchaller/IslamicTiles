@@ -15,23 +15,14 @@ public class MultiTilePattern : Node, IPattern
 
 	public override void _Ready()
 	{
-		createSquare();
-		createOctagon();
-	}
-
-	private void createSquare()
-	{
-		Square square = new Square();
+		Shape square = new Shape();
 		AddChild(square);
-		square.init(scale);
-	}
-	private void createOctagon()
-	{
+		square.init(4, scale);
+
 		Shape octagon = new Shape();
 		
 		AddChild(octagon);
-		octagon.init(8, scale);
-
+		octagon.init(8, scale, square.getInvertedVertice(0));
 	}
 
 	public double getSideLength()

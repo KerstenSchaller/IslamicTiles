@@ -6,14 +6,14 @@ using System.Collections.Generic; //for list
 public class SquarePattern : Node, IPattern
 {
 	int scale;
-	Square square;
+	Shape square;
 
 	public void init(int _scale)
 	{
 		scale = _scale;
-		square = new Square();
+		square = new Shape();
 		AddChild(square);
-		square.init(scale);
+		square.init(4,scale);
 	}
 	public double getXDist()
 	{
@@ -36,30 +36,5 @@ public class SquarePattern : Node, IPattern
 	}
 }
 
-public class Square : Shape, IShape
-{
-   
-	
-	public void init(int _scale)
-	{
-		scale = _scale;
 
-		this.AddChild(polygon);
-		var startLine = new Vector2[]{new Vector2(0,0),new Vector2(0,scale)};
-		
-		vertices = PolyHelper.CreatePolygonVertices(startLine, 4, scale); 
-		polygon.init(vertices.ToArray());
-	}
-
-
-	public int getNumberOfVertices()
-	{
-		return 4;
-	}
-
-	public double getSideLength()
-	{
-		return scale;
-	}
-}
 

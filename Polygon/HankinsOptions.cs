@@ -21,8 +21,7 @@ public class HankinsOptions : Node
 		Hexagon,
 		Square,
 		Triangle,
-		MultiTile, 
-		OctagonRosette
+		MultiTile
 	}
 
 	public static bool resetRequest = false;

@@ -10,11 +10,11 @@ public class TrianglePattern : Node, IPattern
 	public void init(int _scale)
 	{
 		scale = _scale;
-		var triangle1 = new Triangle();
+		var triangle1 = new Shape();
 		AddChild(triangle1);
 		triangle1.init(3, scale);
 
-		var triangle2 = new Triangle();
+		var triangle2 = new Shape();
 		AddChild(triangle2);
 		triangle2.init(3, scale, triangle1.getInvertedVertice(1));
 	}
@@ -39,21 +39,4 @@ public class TrianglePattern : Node, IPattern
 	}
 }
 
-public class Triangle : Shape, IShape
-{
-   
-
-	
-
-
-	public int getNumberOfVertices()
-	{
-		return 3;
-	}
-
-	public double getSideLength()
-	{
-		return scale;
-	}
-}
 
