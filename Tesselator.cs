@@ -37,7 +37,8 @@ public class Tesselator : Node2D
     IPattern pattern;
 
     Vector2 originShift;
-    int scale = 1;
+    int scale = 1; // used to enlarge tiles for singleTilePrint
+    int shapeScale = 50; // general sidelength of one regular polygon
 
     List<ILine> polygonSides = new List<ILine>();
     List<ILine> hankinslines = new List<ILine>();
@@ -89,8 +90,8 @@ public class Tesselator : Node2D
     void getScreenSize()
     {
         var size = GetViewport().Size;
-        width = (int)((size.x / 100) + 5);
-        height = (int)((size.y / 100) + 8);
+        width = (int)((size.x / shapeScale) + 5);
+        height = (int)((size.y / shapeScale) + 8);
 
         if (HankinsOptions.printSingleTileOnly)
         {
@@ -108,33 +109,33 @@ public class Tesselator : Node2D
 
     public void init()
     {
+        
+
         getScreenSize();
         switch (HankinsOptions.shape)
         {
             case HankinsOptions.Shapes.Square:
                 pattern = new SquarePattern();
                 AddChild((SquarePattern)pattern);
-                ((SquarePattern)pattern).init(100);
                 break;
             case HankinsOptions.Shapes.Hexagon:
                 pattern = new HexagonPattern();
                 AddChild((HexagonPattern)pattern);
-                ((HexagonPattern)pattern).init(100);
                 break;
             case HankinsOptions.Shapes.MultiTile:
                 pattern = new MultiTilePattern();
                 AddChild((MultiTilePattern)pattern);
-                ((MultiTilePattern)pattern).init(100);
                 break;
            case HankinsOptions.Shapes.Triangle:
                 pattern = new TrianglePattern();
                 AddChild((TrianglePattern)pattern);
-                ((TrianglePattern)pattern).init(100);
                 break;
             default:
                 GD.Print("No valid pattern");
             break;
         }
+        if(pattern != null)pattern.init(shapeScale);
+
     }
 
     public override void _Ready()
