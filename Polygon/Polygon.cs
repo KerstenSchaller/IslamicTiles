@@ -9,7 +9,7 @@ public class Polygon : Godot.Node2D
     List<Vector2> vertices = new List<Vector2>();
     List<PolygonSide> polygonSides = new List<PolygonSide>();
 
-    public void init(Vector2[] _vertices, Graph graph)
+    public void init(Vector2[] _vertices)
     {
         var pos = this.Position;
         vertices.AddRange(_vertices);
@@ -21,14 +21,6 @@ public class Polygon : Godot.Node2D
         // create polygonSides
         for (int i = 0; i < vertices.Count; i++)
         {
-            // create node from vertice 
-            var node = new GraphNode();
-            IShape shape = (IShape)GetParent();
-            node.setShape(shape);
-            node.setPosition(vertices[i]);
-            graph.addGraphNode(node);
-            AddChild(node);
-
             Vector2 start, end;
 
             if (i < vertices.Count - 1)
@@ -46,7 +38,7 @@ public class Polygon : Godot.Node2D
             // create side
             var side = new PolygonSide();
             this.AddChild(side);
-            side.init(start, end, graph, hankinLineCollector);
+            side.init(start, end, hankinLineCollector);
             polygonSides.Add(side);
 
         }
@@ -54,6 +46,11 @@ public class Polygon : Godot.Node2D
         {
             p.connect();
         }
+
+        // add this to the tesselator so it can draw copys of it
+		var t = GetTree().GetNodesInGroup("Tesselator");
+		Tesselator tesselator = (Tesselator)t[0];
+		tesselator.addPoly(vertices.ToArray(), 0);
     }
 
 

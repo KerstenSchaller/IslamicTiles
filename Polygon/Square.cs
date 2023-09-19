@@ -36,22 +36,19 @@ public class SquarePattern : Node, IPattern
 	}
 }
 
-public class Square : Node2D, IShape
+public class Square : Shape, IShape
 {
    
-	Polygon polygon = new Polygon();
-	int scale;
 	
 	public void init(int _scale)
 	{
 		scale = _scale;
-		Graph graph = new Graph();
-		AddChild(graph);
 
 		this.AddChild(polygon);
-		var vertices = new Vector2[]{new Vector2(0,0),new Vector2(0,scale),new Vector2(scale,scale),new Vector2(scale,0)};
-		polygon.init(vertices, graph);
-		graph.buildGraphConnections();
+		var startLine = new Vector2[]{new Vector2(0,0),new Vector2(0,scale)};
+		
+		vertices = PolyHelper.CreatePolygonVertices(startLine, 4, scale); 
+		polygon.init(vertices.ToArray());
 	}
 
 

@@ -20,6 +20,7 @@ public class HankinsOptions : Node
 	{
 		Hexagon,
 		Square,
+		Triangle,
 		MultiTile, 
 		OctagonRosette
 	}

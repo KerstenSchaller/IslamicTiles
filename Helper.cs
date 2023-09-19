@@ -16,7 +16,7 @@ public static class VectorHelper
 	}
 
 	public static double crossProduct2D_z(Vector2 v1, Vector2 v2)
-	{	
+	{
 		// only z component of vcctor calculated since x and y are zero for 2D
 		//return (v1.x*v2.y-v1.y*v2.x);
 		return v1.Cross(v1);
@@ -24,35 +24,35 @@ public static class VectorHelper
 
 	public static double angleBetween(Vector2 v1, Vector2 v2)
 	{
-		return Math.Acos(dotProduct(v1,v2));
+		return Math.Acos(dotProduct(v1, v2));
 	}
 }
 
-public static class LineHelper 
+public static class LineHelper
 {
 	public static Vector2 calcIntersection(Vector2 p1, double angle1, Vector2 p2, double angle2)
 	{
 		bool dummy = false;
-		return calcIntersection(p1,angle1,p2,angle2, ref dummy);
+		return calcIntersection(p1, angle1, p2, angle2, ref dummy);
 	}
 	public static Vector2 calcIntersection(Vector2 p1, double angle1, Vector2 p2, double angle2, ref bool isFilterSegmentOutlier)
 	{
-		List<Vector2> l1 = new List<Vector2>(){p1,new Vector2( p1.x + (float)Math.Cos(angle1), p1.y +  (float)Math.Sin(angle1))};
-		List<Vector2> l2 = new List<Vector2>(){p2,new Vector2( p2.x + (float)Math.Cos(angle2), p2.y +  (float)Math.Sin(angle2))};
-		return calcIntersection(l1,l2, ref isFilterSegmentOutlier);
+		List<Vector2> l1 = new List<Vector2>() { p1, new Vector2(p1.x + (float)Math.Cos(angle1), p1.y + (float)Math.Sin(angle1)) };
+		List<Vector2> l2 = new List<Vector2>() { p2, new Vector2(p2.x + (float)Math.Cos(angle2), p2.y + (float)Math.Sin(angle2)) };
+		return calcIntersection(l1, l2, ref isFilterSegmentOutlier);
 	}
 
 	public static Vector2 calcIntersection(List<Vector2> l1, List<Vector2> l2)
 	{
 		bool dummy = false;
-		return calcIntersection(l1,l2, ref dummy);
+		return calcIntersection(l1, l2, ref dummy);
 	}
 
 	public static Vector2 calcIntersection(Vector2 v11, Vector2 v12, Vector2 v21, Vector2 v22, ref bool isFilterSegmentOutlier)
 	{
-		var l1 = new List<Vector2>(){v11,v12};
-		var l2 = new List<Vector2>(){v21,v22};
-		return calcIntersection(l1,l2, ref isFilterSegmentOutlier);
+		var l1 = new List<Vector2>() { v11, v12 };
+		var l2 = new List<Vector2>() { v21, v22 };
+		return calcIntersection(l1, l2, ref isFilterSegmentOutlier);
 	}
 
 	public static Vector2 calcIntersection(List<Vector2> l1, List<Vector2> l2, ref bool isFilterSegmentOutlier)
@@ -71,21 +71,21 @@ public static class LineHelper
 		double x4 = l2[1].x;
 		double y4 = l2[1].y;
 
-		double nominatorUA = (x4 - x3)*(y1-y3) - (y4-y3)*(x1-x3);
-		double denominatorUA = (y4 - y3)*(x2-x1) - (x4-x3)*(y2-y1);
-		double ua = nominatorUA/denominatorUA;
+		double nominatorUA = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
+		double denominatorUA = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+		double ua = nominatorUA / denominatorUA;
 
 		// lines are paralell
 		//if(-0.08 < denominatorUA && denominatorUA < 0.08)
-		if(denominatorUA == 0)
+		if (denominatorUA == 0)
 		{
 			// return midpoint 
-			return new Vector2((l1[0]+l2[0])/2);
+			return new Vector2((l1[0] + l2[0]) / 2);
 		}
 
-		double nominatorUB = (x2 - x1)*(y1-y3) - (y2-y1)*(x1-x3);
-		double denominatorUB = (y4 - y3)*(x2-x1) - (x4-x3)*(y2-y1);
-		double ub = nominatorUB/denominatorUB;
+		double nominatorUB = (x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3);
+		double denominatorUB = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+		double ub = nominatorUB / denominatorUB;
 
 		double xIntersect = x1 + ua * (x2 - x1);
 		double yIntersect = y1 + ua * (y2 - y1);
@@ -110,46 +110,71 @@ public static class LineHelper
 		var AB = (line[1] - line[0]);
 		var AC = (point - line[0]);
 		var c = AB.Cross(AC);
-		if(c > 0.01 || c < -0.01 )
+		if (c > 0.01 || c < -0.01)
 		{
 			// not aligned
 			return false;
 		}
 
 		// Check if point is on line 
-		var KAC = VectorHelper.dotProduct(AB,AC);
-		var KAB = VectorHelper.dotProduct(AB,AB); 
+		var KAC = VectorHelper.dotProduct(AB, AC);
+		var KAB = VectorHelper.dotProduct(AB, AB);
 
 		bool result = false;
 
 		// is not on the line 
-		if(KAC < 0)result = false;
-		if(KAC > KAB)result = false;
+		if (KAC < 0) result = false;
+		if (KAC > KAB) result = false;
 
-        // concides with line ending
-        if (KAC == 0)
-        {
+		// concides with line ending
+		if (KAC == 0)
+		{
 
-            result = isTrueOnLineEndings;
-        }
-        if (KAC == KAB)
-        {
-            result = isTrueOnLineEndings;
-        }
-
-
-        // lies on line
-        if (KAC > 0 && KAC < KAB)
-        {
-            result = true;
-        }
+			result = isTrueOnLineEndings;
+		}
+		if (KAC == KAB)
+		{
+			result = isTrueOnLineEndings;
+		}
 
 
-        return result;
+		// lies on line
+		if (KAC > 0 && KAC < KAB)
+		{
+			result = true;
+		}
+
+
+		return result;
 
 
 
 	}
 
 
+
+
+}
+
+
+public static class PolyHelper
+{
+	public static List<Vector2> CreatePolygonVertices(Vector2[] startingLine, int numberOfVertices, float scale)
+	{
+		float internalAngleRad = (numberOfVertices - 2) * (float)Math.PI / numberOfVertices;
+		List<Vector2> v = new List<Vector2>();
+		v.Add(startingLine[0]);
+		v.Add(startingLine[1]);
+
+		for (int i = 2; i < numberOfVertices; i++)
+		{
+			float baseAngle = (float)Math.Atan2((v[i - 1].y - v[i - 2].y), (v[i - 1].x - v[i - 2].x)); // angle of the actual base line
+			var targetAngle = baseAngle - (Math.PI - internalAngleRad); // target angle for new Vertice
+			//GD.Print("baseAngle: " + baseAngle * (180 / Math.PI) + " targetAngle: " + targetAngle * (180 / Math.PI));
+			Vector2 p2 = v[i - 1] + scale * new Vector2((float)Math.Cos(targetAngle), (float)Math.Sin(targetAngle));
+			v.Add(p2);
+		}
+
+		return v;
+	}
 }

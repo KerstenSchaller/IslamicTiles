@@ -34,13 +34,13 @@ public class HankinLine : Node2D, ILine
 
 
 
-	GraphNode startNode;
-	GraphNode endNode;
+	Vector2 startNode;
+	Vector2 endNode;
 
-	GraphNode intersectionNode;
+	Vector2 intersectionNode;
 
-	public GraphNode StartNode{get{return startNode;}}
-	public GraphNode EndNode{get{return endNode;}}
+	public Vector2 StartNode{get{return startNode;}}
+	public Vector2 EndNode{get{return endNode;}}
 
 	public Vector2 Start { get { return startPoint; } }
 	public Vector2 End
@@ -60,9 +60,8 @@ public class HankinLine : Node2D, ILine
 	
 
 	Tesselator tesselator;
-	Graph graph;
 	HankinLineCollector hankinLineCollector;
-	public void init(Vector2 origin, double _baseAngle, bool inverted, Graph _graph, HankinLineCollector _hankinLineCollector)
+	public void init(Vector2 origin, double _baseAngle, bool inverted, HankinLineCollector _hankinLineCollector)
 	{
 		hankinLineCollector = _hankinLineCollector;
 
@@ -77,25 +76,10 @@ public class HankinLine : Node2D, ILine
 		originPoint = origin;
 		baseAngle = _baseAngle;
 
-		graph = _graph;
-
         // init startNode
-        startNode = new GraphNode();
-        endNode = new GraphNode();
-		intersectionNode = new GraphNode();
-		graph.addGraphNode(startNode);
-		graph.addGraphNode(intersectionNode);
-		graph.addGraphNode(endNode);
-
-		// set shape the parent shape to the nodes, will be used for individual offsets
-		IShape shape = (IShape)GetParent().GetParent().GetParent();
-		startNode.setShape(shape);
-		intersectionNode.setShape(shape);
-		endNode.setShape(shape);
-
-		AddChild(startNode);
-		AddChild(endNode);
-		AddChild(intersectionNode);
+        startNode = new Vector2();
+        endNode = new Vector2();
+		intersectionNode = new Vector2();
 
 		init();
 
@@ -113,7 +97,7 @@ public class HankinLine : Node2D, ILine
 			shiftPoint();
 			init();
 			endPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { neighbour.Start, neighbour.Start + neighbour.direction });
-			endNode.setPosition(endPoint);
+			endNode = endPoint;
 			updateIntersection();
 	}
 
@@ -138,13 +122,13 @@ public class HankinLine : Node2D, ILine
 		// Limit offset depending of sidelength of the shape
 		float offset = ((HankinsOptions.ShapesSideLength/2) - (float)HankinsOptions.offset) >= 0 ? (float)HankinsOptions.offset :  HankinsOptions.ShapesSideLength/2;
 		startPoint = (angleInverted) ? originPoint + dir*offset : originPoint - dir*offset;
-		startNode.setPosition(startPoint);
+		startNode = startPoint;
 	}
 
 	void updateIntersection()
 	{
 		var interPoint = LineHelper.calcIntersection(new List<Vector2>() { this.Start, this.Start + this.direction }, new List<Vector2>() { sameSideNeigbour.Start, sameSideNeigbour.Start + sameSideNeigbour.direction });
-		intersectionNode.setPosition(interPoint);
+		intersectionNode = interPoint;
 	}
 
 }

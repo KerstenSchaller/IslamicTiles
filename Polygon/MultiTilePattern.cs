@@ -27,14 +27,11 @@ public class MultiTilePattern : Node, IPattern
 	}
 	private void createOctagon()
 	{
-		Octagon octagon = new Octagon();
-		
-
-		Graph graph = new Graph();
-		AddChild(graph);
+		Shape octagon = new Shape();
 		
 		AddChild(octagon);
-		octagon.init(50);
+		octagon.init(8, scale);
+
 	}
 
 	public double getSideLength()

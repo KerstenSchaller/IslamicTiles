@@ -16,7 +16,7 @@ public class PolygonSide : Node2D, ILine
 	HankinLine hankinLine2;
 
 
-	public void init(Vector2 start, Vector2 end, Graph _graph, HankinLineCollector hankinLineCollector)
+	public void init(Vector2 start, Vector2 end, HankinLineCollector hankinLineCollector)
 	{
 		startPoint = start;
 		endPoint = end;
@@ -33,11 +33,11 @@ public class PolygonSide : Node2D, ILine
 
 		hankinLine1 = new HankinLine();
 		AddChild(hankinLine1);
-		hankinLine1.init(midPoint, lineAngle, true, _graph, hankinLineCollector);
+		hankinLine1.init(midPoint, lineAngle, true, hankinLineCollector);
 
 		hankinLine2 = new HankinLine();
 		AddChild(hankinLine2);
-		hankinLine2.init(midPoint, lineAngle, false, _graph, hankinLineCollector);
+		hankinLine2.init(midPoint, lineAngle, false, hankinLineCollector);
 
 		hankinLine1.addSameSideNeighbour(hankinLine2);
 		hankinLine2.addSameSideNeighbour(hankinLine1);

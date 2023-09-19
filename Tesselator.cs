@@ -11,6 +11,31 @@ public interface IShape
 
 }
 
+public class Shape : Node2D
+{
+        public List<Vector2> vertices;
+    	protected Polygon polygon = new Polygon();
+	    protected int scale;
+
+    public void init(int numberOfVertices,int _scale, Vector2[] startLine = null)
+	{
+		scale = _scale;
+		if(startLine == null)startLine = new Vector2[]{new Vector2(0,0),new Vector2(scale, 0)};
+
+
+		this.AddChild(polygon);
+
+		vertices = PolyHelper.CreatePolygonVertices(startLine, numberOfVertices, scale);
+		polygon.init(vertices.ToArray());
+	}
+
+    public Vector2[] getInvertedVertice(int index)
+    {
+        //return new Vector2[]{ vertices[index], vertices[index+1]};
+        return new Vector2[]{ vertices[index+1], vertices[index]};
+    }
+}
+
 public class Tesselator : Node2D
 {
 
@@ -25,9 +50,9 @@ public class Tesselator : Node2D
     List<ILine> polygonSides = new List<ILine>();
     List<ILine> hankinslines = new List<ILine>();
 
-    List<GraphNode[]> polys = new List<GraphNode[]>();
+    List<Vector2[]> polys = new List<Vector2[]>();
     List<int> polyColorIndex = new List<int>();
-    public void addPolys(List<GraphNode[]> _polys, int colorIndex)
+    public void addPolys(List<Vector2[]> _polys, int colorIndex)
     {
         polys = _polys;
         foreach (var p in _polys)
@@ -36,7 +61,7 @@ public class Tesselator : Node2D
         }
     }
 
-    public void addPoly(GraphNode[] _poly, int colorIndex)
+    public void addPoly(Vector2[] _poly, int colorIndex)
     {
         polys.Add(_poly);
         polyColorIndex.Add(colorIndex);
@@ -72,15 +97,15 @@ public class Tesselator : Node2D
     void getScreenSize()
     {
         var size = GetViewport().Size;
-        width = (int)((size.x / 100) + 2);
-        height = (int)((size.y / 100) + 4);
+        width = (int)((size.x / 100) + 5);
+        height = (int)((size.y / 100) + 8);
 
         if (HankinsOptions.printSingleTileOnly)
         {
             width = 1;
             height = 1;
-            originShift = new Vector2(200, 200);
-            scale = 3;
+            originShift = new Vector2(300, 300);
+            scale = 2;
         }
         else
         {
@@ -103,17 +128,15 @@ public class Tesselator : Node2D
                 pattern = new HexagonPattern();
                 AddChild((HexagonPattern)pattern);
                 break;
-
             case HankinsOptions.Shapes.MultiTile:
                 pattern = new MultiTilePattern();
                 AddChild((MultiTilePattern)pattern);
                 break;
-                /*
-           case HankinsOptions.Shapes.OctagonRosette:
-               OctagonRosette node4 = new OctagonRosette();
-               AddChild(node4);
-               break;
-               */
+           case HankinsOptions.Shapes.Triangle:
+                pattern = new TrianglePattern();
+                AddChild((TrianglePattern)pattern);
+                ((TrianglePattern)pattern).init(100);
+                break;
             default:
                 GD.Print("No valid pattern");
             break;
@@ -185,12 +208,11 @@ public class Tesselator : Node2D
                     Vector2[] tPoly;
                     for (int i = 0; i < polys.Count; i++)
                     {
-                        var shape = polys[i][0].shape;
                         var offset = originShift + new Vector2(x * (float)pattern.getXDist() + (y % 2) * (float)pattern.getXOffset(), y * (float)pattern.getYDist() + (x % 2) * (float)pattern.getYOffset());
                         tPoly = new Vector2[polys[i].Length];
                         for (int j = 0; j < polys[i].Length; j++)
                         {
-                            tPoly[j] = scale * polys[i][j].getPosition() + offset;
+                            tPoly[j] = scale * polys[i][j] + offset;
                         }
                         DrawPolygon(tPoly, new Color[] { HankinsOptions.colors[polyColorIndex[i] + 1] });
                     }
@@ -202,7 +224,6 @@ public class Tesselator : Node2D
                     // Draw all hankinslines multiple times over the plane 
                     foreach (var p in hankinslines)
                     {
-                        var shape = p.Shape;
                         var offset = originShift + new Vector2(x * (float)pattern.getXDist() + (y % 2) * (float)pattern.getXOffset(), y * (float)pattern.getYDist() + (x % 2) * (float)pattern.getYOffset());
 
                         var start = (scale * p.Start + offset);
@@ -215,7 +236,6 @@ public class Tesselator : Node2D
                 {
                     foreach (var p in polygonSides)
                     {
-                        var shape = p.Shape;
                         var offset = originShift + new Vector2(x * (float)pattern.getXDist() + (y % 2) * (float)pattern.getXOffset(), y * (float)pattern.getYDist() + (x % 2) * (float)pattern.getYOffset());
 
                         var start = (scale * p.Start + offset);
@@ -230,7 +250,7 @@ public class Tesselator : Node2D
 
             }
         }
-        clearPolys();
+        //clearPolys();
         //clearHankinLines();
         //clearPolygonSides();
 
