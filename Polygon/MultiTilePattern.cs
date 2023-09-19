@@ -9,12 +9,11 @@ public class MultiTilePattern : Node, IPattern
 	
 	double LengthOctagon{get{return (scale + 2*(new Vector2(1,1)).Normalized().x*scale);}}
 
-	
+	int scale;
 
-	int scale = 50;
-
-	public override void _Ready()
+	public void init(int _scale)
 	{
+		scale = _scale;
 		Shape square = new Shape();
 		AddChild(square);
 		square.init(4, scale);

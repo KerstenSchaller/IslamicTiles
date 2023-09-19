@@ -50,7 +50,7 @@ public class Polygon : Godot.Node2D
         // add this to the tesselator so it can draw copys of it
 		var t = GetTree().GetNodesInGroup("Tesselator");
 		Tesselator tesselator = (Tesselator)t[0];
-		tesselator.addPoly(vertices.ToArray(), 0);
+		//tesselator.addPoly(vertices.ToArray(), 0);
     }
 
 

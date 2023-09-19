@@ -8,11 +8,11 @@ public class HexagonPattern : Node, IPattern
 	List<Vector2> vertices = new List<Vector2>();
 	Shape hexagon;
 
-	public override void _Ready()
+	public void init(int scale)
 	{ 
 		hexagon = new Shape();
 		AddChild(hexagon);	
-		hexagon.init(6, 100);
+		hexagon.init(6, scale);
 	}
 
 	public double getXDist()

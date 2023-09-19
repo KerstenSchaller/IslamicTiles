@@ -96,7 +96,7 @@ public class Tesselator : Node2D
         {
             width = 1;
             height = 1;
-            originShift = new Vector2(300, 300);
+            originShift = new Vector2(300, 00);
             scale = 2;
         }
         else
@@ -119,10 +119,12 @@ public class Tesselator : Node2D
             case HankinsOptions.Shapes.Hexagon:
                 pattern = new HexagonPattern();
                 AddChild((HexagonPattern)pattern);
+                ((HexagonPattern)pattern).init(100);
                 break;
             case HankinsOptions.Shapes.MultiTile:
                 pattern = new MultiTilePattern();
                 AddChild((MultiTilePattern)pattern);
+                ((MultiTilePattern)pattern).init(100);
                 break;
            case HankinsOptions.Shapes.Triangle:
                 pattern = new TrianglePattern();
@@ -187,7 +189,7 @@ public class Tesselator : Node2D
 
     public override void _Draw()
     {
-        if (polys.Count == 0) return;
+        //if (polys.Count == 0) return;
         getScreenSize();
         for (int y = 0; y < height; y++)
         {
