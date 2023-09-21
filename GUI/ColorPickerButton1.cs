@@ -3,16 +3,18 @@ using System;
 
 public class ColorPickerButton1 : ColorPickerButton
 {
-	// Called when the node enters the scene tree for the first time.
+
 	public override void _Ready()
 	{
-		this.Color = Colors.Red;
-        _on_ColorPickerButton_color_changed(this.Color);
+		ColorPickerButton node = GetNode<ColorPickerButton>("/root/Node2D/GUI/VBoxContainer/HBoxContainer7/ColorPickerButton");
+		node.Color = HankinsOptions.getHankinsOptions().colors[0];
 	}
+
 
     private void _on_ColorPickerButton_color_changed(Color color)
     {
-        HankinsOptions.colors[2] = color;
+        HankinsOptions.getHankinsOptions().colors[0] = color;
+        HankinsOptions.getHankinsOptions().SerializeNow();
     }
 }
 

@@ -3,15 +3,16 @@ using System;
 
 public class ColorPickerButton2 : ColorPickerButton
 {
-
 	public override void _Ready()
 	{
-		this.Color = Colors.Green;
-		_on_ColorPickerButton2_color_changed(this.Color);
+		ColorPickerButton node = GetNode<ColorPickerButton>("/root/Node2D/GUI/VBoxContainer/HBoxContainer7/ColorPickerButton2");
+		node.Color = HankinsOptions.getHankinsOptions().colors[1];
 	}
+
 	private void _on_ColorPickerButton2_color_changed(Color color)
 	{
-        HankinsOptions.colors[3] = color;
+        HankinsOptions.getHankinsOptions().colors[1] = color;
+		HankinsOptions.getHankinsOptions().SerializeNow();
 	}
 }
 

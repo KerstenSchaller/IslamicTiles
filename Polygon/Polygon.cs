@@ -9,14 +9,15 @@ public class Polygon : Godot.Node2D
     List<Vector2> vertices = new List<Vector2>();
     List<PolygonSide> polygonSides = new List<PolygonSide>();
 
+    HankinLineCollector hankinLineCollector = new HankinLineCollector();
+
     public void init(Vector2[] _vertices)
     {
         var pos = this.Position;
         vertices.AddRange(_vertices);
-        HankinLineCollector hankinLineCollector = new HankinLineCollector();
 
         //set length of one segment in options to be used by other parts of the program
-        HankinsOptions.ShapesSideLength = (vertices[0] - vertices[1]).Length();
+        HankinsOptions.getHankinsOptions().ShapesSideLength = (vertices[0] - vertices[1]).Length();
 
         // create polygonSides
         for (int i = 0; i < vertices.Count; i++)
@@ -47,10 +48,6 @@ public class Polygon : Godot.Node2D
             p.connect();
         }
 
-        // add this to the tesselator so it can draw copys of it
-		var t = GetTree().GetNodesInGroup("Tesselator");
-		Tesselator tesselator = (Tesselator)t[0];
-		//tesselator.addPoly(vertices.ToArray(), 0);
     }
 
 
@@ -59,6 +56,11 @@ public class Polygon : Godot.Node2D
     {
         vertices = new List<Vector2>();
         polygonSides = new List<PolygonSide>();
+    }
+
+    public override void _Process(float delta)
+    {
+
     }
 
 }

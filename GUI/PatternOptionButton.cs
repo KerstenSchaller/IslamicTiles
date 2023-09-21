@@ -3,11 +3,6 @@ using System;
 
 public class PatternOptionButton : OptionButton
 {
-	// Declare member variables here. Examples:
-	// private int a = 2;
-	// private string b = "text";
-
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		// populate enum
@@ -15,14 +10,17 @@ public class PatternOptionButton : OptionButton
 		{
 			AddItem(Enum.GetName(typeof(HankinsOptions.Shapes), i));
 		}
-		
+		OptionButton node = GetNode<OptionButton>("/root/Node2D/GUI/VBoxContainer/HBoxContainer6/OptionButton");
+		node.Select((int)HankinsOptions.getHankinsOptions().shape);
 	}
+
 
 	private void _on_OptionButton_item_selected(int index)
 	{
-		HankinsOptions.shape =(HankinsOptions.Shapes)index;
+		HankinsOptions.getHankinsOptions().shape =(HankinsOptions.Shapes)index;
 		GD.Print("index: " + index);
-		HankinsOptions.resetRequest = true;
+		HankinsOptions.getHankinsOptions().resetRequest = true;
+		HankinsOptions.getHankinsOptions().SerializeNow();
 	}
 }
 

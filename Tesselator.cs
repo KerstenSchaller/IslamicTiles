@@ -45,6 +45,8 @@ public class Tesselator : Node2D
 
     List<Vector2[]> polys = new List<Vector2[]>();
     List<int> polyColorIndex = new List<int>();
+
+    HankinsOptions hankinsOptions;
     public void addPolys(List<Vector2[]> _polys, int colorIndex)
     {
         polys = _polys;
@@ -93,12 +95,12 @@ public class Tesselator : Node2D
         width = (int)((size.x / shapeScale) + 5);
         height = (int)((size.y / shapeScale) + 8);
 
-        if (HankinsOptions.printSingleTileOnly)
+        if (HankinsOptions.getHankinsOptions().printSingleTileOnly)
         {
             width = 1;
             height = 1;
-            originShift = new Vector2(300, 00);
-            scale = 2;
+            originShift = new Vector2(300, 300);
+            scale = 4;
         }
         else
         {
@@ -109,10 +111,9 @@ public class Tesselator : Node2D
 
     public void init()
     {
-        
-
+        hankinsOptions = HankinsOptions.getHankinsOptions();
         getScreenSize();
-        switch (HankinsOptions.shape)
+        switch (HankinsOptions.getHankinsOptions().shape)
         {
             case HankinsOptions.Shapes.Square:
                 pattern = new SquarePattern();
@@ -174,9 +175,9 @@ public class Tesselator : Node2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if(HankinsOptions.resetRequest == true)
+        if(HankinsOptions.getHankinsOptions().resetRequest == true)
         {
-            HankinsOptions.resetRequest = false;
+            HankinsOptions.getHankinsOptions().resetRequest = false;
             reset();
         }
 
@@ -190,6 +191,8 @@ public class Tesselator : Node2D
 
     public override void _Draw()
     {
+        GD.Print("Draw Tesselator");
+
         //if (polys.Count == 0) return;
         getScreenSize();
         for (int y = 0; y < height; y++)
@@ -197,7 +200,7 @@ public class Tesselator : Node2D
             for (int x = 0; x < width; x++)
             {
                 // Draw all polygonlines multiple times over the plane 
-                if (HankinsOptions.showPoly)
+                if (HankinsOptions.getHankinsOptions().showPoly)
                 {
                     // Draw all hankinslines multiple times over the plane 
                     Vector2[] tPoly;
@@ -209,7 +212,7 @@ public class Tesselator : Node2D
                         {
                             tPoly[j] = scale * polys[i][j] + offset;
                         }
-                        DrawPolygon(tPoly, new Color[] { HankinsOptions.colors[polyColorIndex[i] + 1] });
+                        DrawPolygon(tPoly, new Color[] { HankinsOptions.getHankinsOptions().colors[polyColorIndex[i]] });
                     }
 
                 }
@@ -223,11 +226,11 @@ public class Tesselator : Node2D
 
                         var start = (scale * p.Start + offset);
                         var end = (scale * p.End + offset);
-                        DrawLine(start, end, HankinsOptions.colors[0], 1);
+                        DrawLine(start, end, HankinsOptions.getHankinsOptions().colors[3], 1);
                     }
                 }
 
-                if (HankinsOptions.showFrame)
+                if (HankinsOptions.getHankinsOptions().showFrame)
                 {
                     foreach (var p in polygonSides)
                     {
@@ -245,7 +248,7 @@ public class Tesselator : Node2D
 
             }
         }
-        //clearPolys();
+        clearPolys();
         //clearHankinLines();
         //clearPolygonSides();
 

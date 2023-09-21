@@ -1,19 +1,42 @@
 using Godot;
 using System;
 
-public class HankinsOptions : Node
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
+[Serializable]
+public class HankinsOptions
 {
 
-	public static double angleFromBase = Math.PI / 4; 
+	private HankinsOptions() { }
 
-	public static double AngleGrad
+	static HankinsOptions hankinsOptions;
+
+	public static HankinsOptions getHankinsOptions()
+	{
+		if (hankinsOptions == null)
+		{
+			hankinsOptions = new HankinsOptions();
+			hankinsOptions.DeSerializeNow();
+			return hankinsOptions;
+		}
+		else
+		{
+			return hankinsOptions;
+		}
+	}
+
+	public double angleFromBase = Math.PI / 4;
+
+	public double AngleGrad
 	{
 		get { return angleFromBase * 180 / Math.PI; }
 		set { angleFromBase = value * Math.PI / 180; }
 	}
 
 
-	public static float offset;
+	public float offset;
 
 
 	public enum Shapes
@@ -24,13 +47,13 @@ public class HankinsOptions : Node
 		MultiTile
 	}
 
-	public static bool resetRequest = false;
+	public bool resetRequest = false;
 
-	public static float ShapesSideLength = -1;
+	public float ShapesSideLength = -1;
 
-	public static Shapes shape = Shapes.Hexagon;
+	public Shapes shape = Shapes.Hexagon;
 
-	public static Color[] colors = new Color[3];
+	public Color[] colors = new Color[4] { Colors.Red, Colors.Green, Colors.Black, Colors.Blue };
 	[Export]
 	public Color[] _Colors
 	{
@@ -38,8 +61,29 @@ public class HankinsOptions : Node
 		set { colors = (Color[])value; }
 	}
 
-	public static bool showPoly = true;
-	public static bool showFrame = true;
-	public static bool printSingleTileOnly = false;
+	public bool showPoly = true;
+	public bool showFrame = true;
+	public bool printSingleTileOnly = false;
+
+	public void SerializeNow()
+	{
+		HankinsOptions c = hankinsOptions;
+		IFormatter formatter = new BinaryFormatter();
+    	System.IO.Stream stream = new FileStream(@"options.txt",FileMode.Create, FileAccess.Write);
+
+    	formatter.Serialize(stream, c);
+    	stream.Close();
+	}
+
+	public void DeSerializeNow()
+	{
+		IFormatter formatter = new BinaryFormatter();
+		if(System.IO.File.Exists(@"options.txt"))
+		{
+			System.IO.Stream stream = new FileStream(@"options.txt",FileMode.Open,FileAccess.Read);
+			hankinsOptions = (HankinsOptions)formatter.Deserialize(stream);
+			stream.Close();
+		}
+	}
 
 }

@@ -32,11 +32,12 @@ public class PolygonSide : Node2D, ILine
 
 		hankinLine1 = new HankinLine();
 		AddChild(hankinLine1);
-		hankinLine1.init(midPoint, lineAngle, true, hankinLineCollector);
+		hankinLine1.init(midPoint, lineAngle, true, startPoint, hankinLineCollector);
 
 		hankinLine2 = new HankinLine();
 		AddChild(hankinLine2);
-		hankinLine2.init(midPoint, lineAngle, false, hankinLineCollector);
+		hankinLine2.init(midPoint, lineAngle, false, endPoint, hankinLineCollector);
+
 
 		hankinLine1.addSameSideNeighbour(hankinLine2);
 		hankinLine2.addSameSideNeighbour(hankinLine1);
